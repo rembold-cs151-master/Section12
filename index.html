@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Jed Rembold and Eric Roberts">
-  <title>Title</title>
+  <title>Section 12: The Adventure Project</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -36,16 +36,1566 @@
     <div class="slides">
 
 <section id="title-slide">
-  <h1 class="title">Title</h1>
+  <h1 class="title">Section 12: The Adventure Project</h1>
   <p class="author">Jed Rembold and Eric Roberts</p>
-  <p class="date">Date</p>
+  <p class="date">Week of November 27th</p>
 </section>
 
+<section id="the-adventure-begins" class="slide level2">
+<h2>The Adventure Begins</h2>
+<ul>
+<li>In terms of the amount of code to write, Adventure is roughly
+comparable to the Enigma project. What makes Adventure challenging is
+the interconnection of its data structures.</li>
+<li>The project includes separate classes:
+<ul>
+<li><code class="python">AdvGame</code></li>
+<li><code class="python">AdvRoom</code></li>
+<li><code class="python">AdvObject</code></li>
+</ul>
+each of which internally utilize Python lists, dictionaries, and
+tuples</li>
+</ul>
+</section>
+<section id="adventure-strategies" class="slide level2">
+<h2>Adventure Strategies:</h2>
+<ul>
+<li>Ensure that you thoroughly understand the
+<code class="python">TeachingMachine.py</code> program before moving on
+to Adventure. Most of the parts you need are already there, you just
+need to determine how to adapt them.</li>
+<li>Don’t try to keep the entire data structure in your head all at
+once. Consider each class, figure out what it does, and then think
+abstractly about what that class represents rather than worrying about
+the details</li>
+<li>Keep close track of what Python types your variables are storing.
+Choose good variable names that help you remember specifically what a
+particular variable is storing. Students thinking a variable has one
+thing in it when it is actually storing a different data type is a very
+common source of confusion with Adventure.</li>
+</ul>
+</section>
+<section id="understanding-the-teaching-machine" class="slide level2">
+<h2>Understanding the Teaching Machine</h2>
+<ul>
+<li>Like the Adventure project, the
+<code class="python">TeachingMachine.py</code> program is data-driven,
+encoding the details of its operation in data files rather than in the
+program itself</li>
+<li>The <code class="python">TeachingMachine.py</code> program begins by
+reading in a data file and translating the human-readable contents of
+the file into an internal data structure, shown on the next slide.</li>
+<li>When designing the internal data structure for data-driven
+applications, you should consider what types of common operations the
+structure needs to support.
+<ul>
+<li>In the Teaching Machine, each question specifies a collection of
+possible answers, each of which directs to a new question. Such a
+relationship suggests a dictionary would be useful.</li>
+<li>Similarly, the course as a whole consists of a collection of
+questions referenced by a unique name. Thus, once again a dictionary
+seems like the best internal structure.</li>
+</ul></li>
+</ul>
+</section>
+<section id="teaching-structure" class="slide level2">
+<h2>Teaching Structure</h2>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="495.32474mm"
+   height="252.65973mm"
+   viewBox="0 0 495.32473 252.65973"
+   version="1.1"
+   id="svg839"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   sodipodi:docname="TeachingMachine.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <defs
+     id="defs833">
+    <marker
+       style="overflow:visible"
+       id="marker2383"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path2381" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker2301"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="DotM"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(0.4,0,0,0.4,2.96,0.4)"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1"
+         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         id="path2299" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker2223"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path2221" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker2153"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="DotM"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         transform="matrix(0.4,0,0,0.4,2.96,0.4)"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1"
+         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         id="path2151" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker1475"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path1473" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker1417"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="DotM"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         transform="matrix(0.4,0,0,0.4,2.96,0.4)"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1"
+         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         id="path1415" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker1309"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="DotM"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(0.4,0,0,0.4,2.96,0.4)"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1"
+         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         id="path1307" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker1269"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path1267" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="DotM"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="DotM"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         transform="matrix(0.4,0,0,0.4,2.96,0.4)"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1"
+         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         id="path995" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="DotL"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="DotL"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(0.8,0,0,0.8,5.92,0.8)"
+         style="fill:#b877db;fill-opacity:1;fill-rule:evenodd;stroke:#b877db;stroke-width:1pt;stroke-opacity:1"
+         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         id="path992" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="Arrow1Mend"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend"
+       inkscape:isstock="true"
+       inkscape:collect="always">
+      <path
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path940" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#3d3d3d"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="986.91903"
+     inkscape:cy="402.04071"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-width="1513"
+     inkscape:window-height="980"
+     inkscape:window-x="147"
+     inkscape:window-y="50"
+     inkscape:window-maximized="1"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
+  <metadata
+     id="metadata836">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-238.91306,-50.878314)">
+    <g
+       id="step1"
+       transform="matrix(0.46836499,0,0,0.46692324,128.09234,27.560703)"
+       style="stroke-width:2.13838">
+      <rect
+         style="fill:none;stroke:#66d9ef;stroke-width:6.41514235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect841"
+         width="99.210564"
+         height="34.371853"
+         x="242.45499"
+         y="79.446747"
+         ry="7.7560673" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.1023px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#66d9ef;fill-opacity:1;stroke:none;stroke-width:0.565782"
+         x="237.92981"
+         y="72.408722"
+         id="text845"><tspan
+           sodipodi:role="line"
+           id="tspan843"
+           x="237.92981"
+           y="72.408722"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.10230021px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#66d9ef;stroke-width:0.565782">course</tspan></text>
+    </g>
+    <g
+       id="step2"
+       transform="matrix(0.46836499,0,0,0.46692324,128.09234,27.560703)"
+       style="stroke-width:2.13838">
+      <rect
+         style="fill:none;stroke:#a6e22e;stroke-width:6.41514252;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect847"
+         width="235.6095"
+         height="93.940254"
+         x="403.255"
+         y="80.723518"
+         ry="2.9480522" />
+      <rect
+         style="fill:none;stroke:#66d9ef;stroke-width:6.41514235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect849"
+         width="198.21927"
+         height="34.371853"
+         x="423.46606"
+         y="117.38282"
+         ry="7.7560673" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.1023px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#66d9ef;fill-opacity:1;stroke:none;stroke-width:0.565782"
+         x="419.29355"
+         y="108.60177"
+         id="text853"><tspan
+           sodipodi:role="line"
+           id="tspan851"
+           x="419.29355"
+           y="108.60177"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.10230021px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#66d9ef;stroke-width:0.565782">questions</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.3376px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.565782"
+         x="458.05786"
+         y="71.555321"
+         id="text857"><tspan
+           sodipodi:role="line"
+           id="tspan855"
+           x="458.05786"
+           y="71.555321"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:26.3376px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.565782">TMCourse</tspan></text>
+      <path
+         style="fill:none;stroke:#ae81ff;stroke-width:3.20757;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#DotM);marker-end:url(#Arrow1Mend)"
+         d="M 288.19321,97.491234 H 394.09843"
+         id="path929" />
+    </g>
+    <g
+       id="step3"
+       transform="matrix(0.46836499,0,0,0.46692324,128.09234,27.560703)"
+       style="stroke-width:2.13838">
+      <rect
+         style="fill:none;stroke:#f92672;stroke-width:6.41514235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect883"
+         width="235.6095"
+         height="173.25279"
+         x="403.255"
+         y="411.95917"
+         ry="5.4370542" />
+      <rect
+         style="fill:none;stroke:#66d9ef;stroke-width:6.41514235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect885"
+         width="198.21927"
+         height="34.371853"
+         x="423.46606"
+         y="430.00885"
+         ry="7.7560673" />
+      <rect
+         style="fill:none;stroke:#66d9ef;stroke-width:6.41514235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect887"
+         width="198.21927"
+         height="34.371853"
+         x="423.46606"
+         y="464.38071"
+         ry="7.7560673" />
+      <rect
+         style="fill:none;stroke:#66d9ef;stroke-width:6.41514235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect889"
+         width="198.21927"
+         height="34.371853"
+         x="423.46606"
+         y="498.75256"
+         ry="7.7560673" />
+      <rect
+         style="fill:none;stroke:#66d9ef;stroke-width:6.41514235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect891"
+         width="198.21927"
+         height="34.371853"
+         x="423.46606"
+         y="533.12445"
+         ry="7.7560673" />
+      <path
+         style="fill:none;stroke:#66d9ef;stroke-width:6.41514235;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 520.8779,430.39169 V 567.52451"
+         id="path893" />
+      <text
+         xml:space="preserve"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.8546px;line-height:1.25;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#f92672;fill-opacity:1;stroke:none;stroke-width:0.565779"
+         x="444.28571"
+         y="395.67572"
+         id="text897"><tspan
+           sodipodi:role="line"
+           id="tspan895"
+           x="444.28571"
+           y="395.67572"
+           style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.8546px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#f92672;stroke-width:0.565779">name : question</tspan></text>
+      <path
+         style="fill:none;stroke:#ae81ff;stroke-width:3.20757;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker1309);marker-end:url(#marker1269)"
+         d="m 524.43533,136.83736 v 185.47467 h -178.4345 v 124.91066 h 50.24028"
+         id="path1265"
+         sodipodi:nodetypes="ccccc" />
+      <text
+         xml:space="preserve"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.8546px;line-height:1.25;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#ae81ff;fill-opacity:1;stroke:none;stroke-width:0.565779"
+         x="459.57397"
+         y="453.35654"
+         id="text1"><tspan
+           sodipodi:role="line"
+           id="tspan1"
+           x="459.57397"
+           y="453.35654"
+           style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.8546px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ae81ff;stroke-width:0.565779;fill-opacity:1">str</tspan></text>
+    </g>
+    <g
+       id="step4"
+       transform="matrix(0.46836499,0,0,0.46692324,128.09234,27.560703)"
+       style="stroke-width:2.13838">
+      <rect
+         style="fill:none;stroke:#a6e22e;stroke-width:6.41514235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect859"
+         width="235.6095"
+         height="234.36769"
+         x="750.78754"
+         y="80.723518"
+         ry="7.3549743" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:27.1806px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.565779"
+         x="787.6676"
+         y="71.48819"
+         id="text863"><tspan
+           sodipodi:role="line"
+           id="tspan861"
+           x="787.6676"
+           y="71.48819"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:27.1806px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.565779">TMQuestion</tspan></text>
+      <rect
+         style="fill:none;stroke:#66d9ef;stroke-width:6.41514235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect865"
+         width="198.21927"
+         height="34.371853"
+         x="769.3313"
+         y="117.38282"
+         ry="7.7560673" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.1023px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#66d9ef;fill-opacity:1;stroke:none;stroke-width:0.565782"
+         x="765.15875"
+         y="108.60177"
+         id="text869"><tspan
+           sodipodi:role="line"
+           id="tspan867"
+           x="765.15875"
+           y="108.60177"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.10230021px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#66d9ef;stroke-width:0.565782">name</tspan></text>
+      <rect
+         style="fill:none;stroke:#66d9ef;stroke-width:6.41514235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect871"
+         width="198.21927"
+         height="34.371853"
+         x="769.3313"
+         y="186.29816"
+         ry="7.7560673" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.1023px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#66d9ef;fill-opacity:1;stroke:none;stroke-width:0.565782"
+         x="765.15875"
+         y="177.51711"
+         id="text875"><tspan
+           sodipodi:role="line"
+           id="tspan873"
+           x="765.15875"
+           y="177.51711"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.10230021px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#66d9ef;stroke-width:0.565782">text</tspan></text>
+      <rect
+         style="fill:none;stroke:#66d9ef;stroke-width:6.41514235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect877"
+         width="198.21927"
+         height="34.371853"
+         x="769.3313"
+         y="258.15186"
+         ry="7.7560673" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.1023px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#66d9ef;fill-opacity:1;stroke:none;stroke-width:0.565782"
+         x="765.15875"
+         y="249.37082"
+         id="text881"><tspan
+           sodipodi:role="line"
+           id="tspan879"
+           x="765.15875"
+           y="249.37082"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:19.10230021px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#66d9ef;stroke-width:0.565782">answers</tspan></text>
+      <path
+         style="fill:none;stroke:#ae81ff;stroke-width:3.20757117;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:16.79999924;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker1417);marker-end:url(#marker1475)"
+         d="M 571.46771,448.66372 H 680.70958 V 104.46793 h 60.19252"
+         id="path1413"
+         sodipodi:nodetypes="cccc" />
+      <text
+         xml:space="preserve"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.8546px;line-height:1.25;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#ae81ff;fill-opacity:1;stroke:none;stroke-width:0.565779"
+         x="854.57184"
+         y="141.34038"
+         id="text3-3"><tspan
+           sodipodi:role="line"
+           id="tspan3-6"
+           x="854.57184"
+           y="141.34038"
+           style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.8546px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ae81ff;fill-opacity:1;stroke-width:0.565779">str</tspan></text>
+    </g>
+    <g
+       id="step5"
+       transform="matrix(0.46836499,0,0,0.46692324,128.09234,27.560703)"
+       style="stroke-width:2.13838">
+      <rect
+         style="fill:none;stroke:#fd971f;stroke-width:6.41514235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect915"
+         width="235.6095"
+         height="173.25279"
+         x="1052.7207"
+         y="97.249626"
+         ry="5.4370542" />
+      <rect
+         style="fill:none;stroke:#66d9ef;stroke-width:6.41514235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect917"
+         width="198.21927"
+         height="34.371853"
+         x="1070.4055"
+         y="117.38282"
+         ry="7.7560673" />
+      <text
+         xml:space="preserve"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.8546px;line-height:1.25;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#ae81ff;fill-opacity:1;stroke:none;stroke-width:0.565779"
+         x="1155.646"
+         y="141.34038"
+         id="text3-7"><tspan
+           sodipodi:role="line"
+           id="tspan3-5"
+           x="1155.646"
+           y="141.34038"
+           style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.8546px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ae81ff;fill-opacity:1;stroke-width:0.565779">str</tspan></text>
+      <rect
+         style="fill:none;stroke:#66d9ef;stroke-width:6.41514235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect919"
+         width="198.21927"
+         height="34.371853"
+         x="1070.4055"
+         y="151.75467"
+         ry="7.7560673" />
+      <rect
+         style="fill:none;stroke:#66d9ef;stroke-width:6.41514235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect921"
+         width="198.21927"
+         height="34.371853"
+         x="1070.4055"
+         y="186.12653"
+         ry="7.7560673" />
+      <rect
+         style="fill:none;stroke:#66d9ef;stroke-width:6.41514235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect923"
+         width="198.21927"
+         height="34.371853"
+         x="1070.4055"
+         y="220.49838"
+         ry="7.7560673" />
+      <text
+         xml:space="preserve"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.8546px;line-height:1.25;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#fd971f;fill-opacity:1;stroke:none;stroke-width:0.565779;"
+         x="1105.98"
+         y="78.802345"
+         id="text927"><tspan
+           sodipodi:role="line"
+           id="tspan925"
+           x="1105.98"
+           y="78.802345"
+           style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.8546px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#fd971f;stroke-width:0.565779;">array of strings</tspan></text>
+      <path
+         style="fill:none;stroke:#ae81ff;stroke-width:3.20757;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker2301);marker-end:url(#marker2383)"
+         d="M 870.00341,204.5466 H 1015.808 v -84.23682 l 30.8209,0"
+         id="path2297"
+         sodipodi:nodetypes="cccc" />
+    </g>
+    <g
+       id="step6"
+       transform="matrix(0.46836499,0,0,0.46692324,128.09234,27.560703)"
+       style="stroke-width:2.13838">
+      <rect
+         style="fill:none;stroke:#f92672;stroke-width:6.41514235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect899"
+         width="235.6095"
+         height="173.25279"
+         x="749.82654"
+         y="411.95917"
+         ry="5.4370542" />
+      <rect
+         style="fill:none;stroke:#66d9ef;stroke-width:6.41514235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect901"
+         width="198.21927"
+         height="34.371853"
+         x="770.0376"
+         y="430.00885"
+         ry="7.7560673" />
+      <rect
+         style="fill:none;stroke:#66d9ef;stroke-width:6.41514235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect903"
+         width="198.21927"
+         height="34.371853"
+         x="770.0376"
+         y="464.38071"
+         ry="7.7560673" />
+      <rect
+         style="fill:none;stroke:#66d9ef;stroke-width:6.41514235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect905"
+         width="198.21927"
+         height="34.371853"
+         x="770.0376"
+         y="498.75256"
+         ry="7.7560673" />
+      <rect
+         style="fill:none;stroke:#66d9ef;stroke-width:6.41514235;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         id="rect907"
+         width="198.21927"
+         height="34.371853"
+         x="770.0376"
+         y="533.12445"
+         ry="7.7560673" />
+      <path
+         style="fill:none;stroke:#66d9ef;stroke-width:6.41514235;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 867.44944,430.39169 V 567.52451"
+         id="path909" />
+      <text
+         xml:space="preserve"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.8546px;line-height:1.25;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#f92672;fill-opacity:1;stroke:none;stroke-width:0.565779"
+         x="789.19818"
+         y="395.67572"
+         id="text913"><tspan
+           sodipodi:role="line"
+           id="tspan911"
+           x="789.19818"
+           y="395.67572"
+           style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.8546px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#f92672;stroke-width:0.565779">response : name</tspan></text>
+      <path
+         style="fill:none;stroke:#ae81ff;stroke-width:3.20757;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker2153);marker-end:url(#marker2223)"
+         d="m 872.56657,275.94483 v 82.54328 l -157.78835,0 v 86.66083 h 26.19644"
+         id="path2149"
+         sodipodi:nodetypes="ccccc" />
+      <text
+         xml:space="preserve"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.8546px;line-height:1.25;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#ae81ff;fill-opacity:1;stroke:none;stroke-width:0.565779"
+         x="802.0708"
+         y="453.68869"
+         id="text2"><tspan
+           sodipodi:role="line"
+           id="tspan2"
+           x="802.0708"
+           y="453.68869"
+           style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.8546px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ae81ff;fill-opacity:1;stroke-width:0.565779">str</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.8546px;line-height:1.25;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#ae81ff;fill-opacity:1;stroke:none;stroke-width:0.565779"
+         x="903.07532"
+         y="453.68869"
+         id="text3"><tspan
+           sodipodi:role="line"
+           id="tspan3"
+           x="903.07532"
+           y="453.68869"
+           style="font-style:italic;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:20.8546px;font-family:'Droid Serif';-inkscape-font-specification:'Droid Serif, Italic';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ae81ff;fill-opacity:1;stroke-width:0.565779">str</tspan></text>
+    </g>
+  </g>
+</svg>
+</p>
+</section>
 <section id="problem-1" class="slide level2">
 <h2>Problem 1</h2>
 <ul>
-<li>Is here!</li>
+<li>As a first step toward making the conversion to the Adventure
+program, it is useful to draw out a similar diagram showing the desired
+internal data structure for the Adventure game</li>
+<li>In this problem you’ll just focus on the
+<code class="python">AdvRoom</code> class.
+<ul>
+<li>The next slide shows the contents of the first room of the
+<code class="python">TinyRooms.txt</code> data file, one of the three
+supplied to you with the Adventure project. Draw a pencil-and-paper
+diagram showing what a <strong>filled</strong> internal data structure
+would look like.</li>
+<li>The format of the data file has something extra that the Teaching
+Machine did not have: a short description. How should you incorporate
+that?</li>
+<li>Clearly indicate the new names you will assign to each of the
+attributes</li>
+</ul></li>
 </ul>
+</section>
+<section id="tinyrooms.txt-room-1" class="slide level2">
+<h2><code class="python">TinyRooms.txt</code> (Room 1)</h2>
+<pre ><code class="text" style="max-height:900px; font-size:.8em">OutsideBuilding
+Outside building
+You are standing at the end of a road before a small brick
+building.  A small stream flows out of the building and
+down a gully to the south.  A road runs up a small hill
+to the west.
+-----
+WEST: EndOfRoad
+UP: EndOfRoad
+NORTH: InsideBuilding
+IN: InsideBuilding
+SOUTH: Valley
+DOWN: Valley</code></pre>
+</section>
+<section id="problem-1-one-solution" class="slide level2">
+<h2>Problem 1: One Solution</h2>
+<p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="495.32474mm"
+   height="252.65973mm"
+   viewBox="0 0 495.32473 252.65973"
+   version="1.1"
+   id="svg839"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   sodipodi:docname="AdvRooms.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#3d3d3d"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="833.21428"
+     inkscape:cy="603.57143"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-width="1513"
+     inkscape:window-height="980"
+     inkscape:window-x="147"
+     inkscape:window-y="50"
+     inkscape:window-maximized="1"
+     inkscape:showpageshadow="2"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
+  <defs
+     id="defs833">
+    <marker
+       style="overflow:visible"
+       id="marker2383"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path2381" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker2301"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="DotM"
+       inkscape:isstock="true"
+       viewBox="0 0 4.53333335 4.53333335"
+       markerWidth="4.5333333"
+       markerHeight="4.5333333"
+       preserveAspectRatio="xMidYMid">
+      <path
+         transform="matrix(0.4,0,0,0.4,2.96,0.4)"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1"
+         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         id="path2299" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker1309"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="DotM"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(0.4,0,0,0.4,2.96,0.4)"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1"
+         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         id="path1307" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="marker1269"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="Arrow1Mend"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1"
+         d="M 0,0 5,-5 -12.5,0 5,5 Z"
+         id="path1267" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       id="DotL"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="DotL"
+       inkscape:isstock="true">
+      <path
+         transform="matrix(0.8,0,0,0.8,5.92,0.8)"
+         style="fill:#b877db;fill-opacity:1;fill-rule:evenodd;stroke:#b877db;stroke-width:1pt;stroke-opacity:1"
+         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         id="path992" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="marker21533168"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       id="marker21533168">
+      <path
+         transform="matrix(0.4,0,0,0.4,2.96,0.4)"
+         style="fill:#ae81ff;fill-opacity:1.0;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1.0"
+         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         id="path22" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       refX="4"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="ConcaveTriangle2684"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid"
+       id="ConcaveTriangle2684">
+      <path
+         transform="scale(0.7)"
+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
+         style="fill:#ae81ff;fill-rule:evenodd;stroke:#ae81ff;stroke-opacity:1.0;fill-opacity:1.0"
+         id="path23" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       refX="0"
+       refY="0"
+       orient="auto"
+       inkscape:stockid="marker23017022"
+       inkscape:isstock="true"
+       viewBox="0 0 4.53333335 4.53333335"
+       markerWidth="4.5333333"
+       markerHeight="4.5333333"
+       preserveAspectRatio="xMidYMid"
+       id="marker23017022">
+      <path
+         transform="matrix(0.4,0,0,0.4,2.96,0.4)"
+         style="fill:#ae81ff;fill-opacity:1.0;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1.0"
+         d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
+         id="path24" />
+    </marker>
+    <marker
+       style="overflow:visible"
+       refX="4"
+       refY="0"
+       orient="auto-start-reverse"
+       inkscape:stockid="ConcaveTriangle7952"
+       markerWidth="1"
+       markerHeight="1"
+       viewBox="0 0 1 1"
+       inkscape:isstock="true"
+       inkscape:collect="always"
+       preserveAspectRatio="xMidYMid"
+       id="ConcaveTriangle7952">
+      <path
+         transform="scale(0.7)"
+         d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
+         style="fill:#ae81ff;fill-rule:evenodd;stroke:#ae81ff;stroke-opacity:1.0;fill-opacity:1.0"
+         id="path25" />
+    </marker>
+  </defs>
+  <metadata
+     id="metadata836">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-238.91306,-50.878314)">
+    <rect
+       style="fill:none;stroke:#a6e22e;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect859"
+       width="110.35124"
+       height="138.14857"
+       x="251.07338"
+       y="65.252388"
+       ry="4.3354063" />
+    <rect
+       style="fill:none;stroke:#66d9ef;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect865"
+       width="92.838966"
+       height="16.049017"
+       x="259.01505"
+       y="82.369469"
+       ry="3.6214881" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.93307px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#66d9ef;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="256.26782"
+       y="78.390137"
+       id="text869"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan867"
+         x="256.26782"
+         y="78.390137"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.93307px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#66d9ef;stroke-width:0.264584">name</tspan></text>
+    <rect
+       style="fill:none;stroke:#66d9ef;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect871"
+       width="92.838966"
+       height="16.049017"
+       x="259.01505"
+       y="114.54765"
+       ry="3.6214881" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.93307px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#66d9ef;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="256.1893"
+       y="110.61794"
+       id="text875"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan873"
+         x="256.1893"
+         y="110.61794"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.93307px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#66d9ef;stroke-width:0.264584">short_desc</tspan></text>
+    <rect
+       style="fill:none;stroke:#66d9ef;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect877"
+       width="92.838966"
+       height="16.049017"
+       x="259.01505"
+       y="178.2412"
+       ry="3.6214881" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.93307px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#66d9ef;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="256.28964"
+       y="174.40981"
+       id="text881"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan879"
+         x="256.28964"
+         y="174.40981"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.93307px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#66d9ef;stroke-width:0.264584">passages</tspan></text>
+    <rect
+       style="fill:none;stroke:#fd971f;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect915"
+       width="292.95975"
+       height="83.133362"
+       x="396.18869"
+       y="65.259819"
+       ry="2.6089082" />
+    <rect
+       style="fill:none;stroke:#66d9ef;stroke-width:3.00001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect917"
+       width="276.80261"
+       height="16.049017"
+       x="404.47156"
+       y="74.660477"
+       ry="3.6214881" />
+    <rect
+       style="fill:none;stroke:#66d9ef;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect919"
+       width="276.52893"
+       height="16.049017"
+       x="404.47159"
+       y="90.709488"
+       ry="3.6214881" />
+    <path
+       style="fill:none;stroke:#ae81ff;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker23017022);marker-end:url(#ConcaveTriangle7952)"
+       d="m 303.51248,154.41818 h 68.28976 l 0,-46.7617 h 14.43543"
+       id="path2297"
+       sodipodi:nodetypes="cccc" />
+    <rect
+       style="fill:none;stroke:#f92672;stroke-width:2.99999;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect899"
+       width="143.94579"
+       height="108.81274"
+       x="396.76962"
+       y="161.05618"
+       ry="3.4147835" />
+    <path
+       style="fill:none;stroke:#ae81ff;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker21533168);marker-end:url(#ConcaveTriangle2684)"
+       d="m 301.48611,187.08477 h 74.90278 v 28.54105 h 12.12076"
+       id="path2149"
+       sodipodi:nodetypes="cccc" />
+    <rect
+       style="fill:none;stroke:#66d9ef;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect1"
+       width="92.838966"
+       height="16.049017"
+       x="259.01505"
+       y="146.3441"
+       ry="3.6214881" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.93307px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#66d9ef;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="256.07153"
+       y="142.46347"
+       id="text4"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan4"
+         x="256.07153"
+         y="142.46347"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.93307px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#66d9ef;stroke-width:0.264584">long_desc</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="267.24756"
+       y="92.54435"
+       id="text5"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan5"
+         x="267.24756"
+         y="92.54435"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">&quot;OutsideBuilding&quot;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="263.51144"
+       y="124.82642"
+       id="text6"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan6"
+         x="263.51144"
+         y="124.82642"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">&quot;Outside building&quot;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="408.64359"
+       y="84.838356"
+       id="text7"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan7"
+         x="408.64359"
+         y="84.838356"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">&quot;You are standing at the end of a road before a small brick&quot;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="408.29318"
+       y="100.91212"
+       id="text8"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan8"
+         x="408.29318"
+         y="100.91212"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">&quot;building.  A small stream flows out of the building and&quot;</tspan></text>
+    <rect
+       style="fill:none;stroke:#66d9ef;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect8"
+       width="276.52893"
+       height="16.049017"
+       x="404.47159"
+       y="106.75851"
+       ry="3.6214881" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="408.29318"
+       y="116.9859"
+       id="text9"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan9"
+         x="408.29318"
+         y="116.9859"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">&quot;down a gully to the south.  A road runs up a small hill&quot;</tspan></text>
+    <rect
+       style="fill:none;stroke:#66d9ef;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect9"
+       width="276.52893"
+       height="16.049017"
+       x="404.47159"
+       y="122.80753"
+       ry="3.6214881" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="408.29318"
+       y="133.79092"
+       id="text10"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan10"
+         x="408.29318"
+         y="133.79092"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">&quot;to the west.&quot;</tspan></text>
+    <rect
+       style="fill:none;stroke:#66d9ef;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect10"
+       width="126.33411"
+       height="16.049017"
+       x="405.61121"
+       y="166.85242"
+       ry="3.6214881" />
+    <path
+       style="fill:none;stroke:#66d9ef;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 451.23549,167.03118 v 16.25743"
+       id="path10"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="412.37854"
+       y="177.89217"
+       id="text11"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan11"
+         x="412.37854"
+         y="177.89217"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">&quot;WEST&quot;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="455.73129"
+       y="177.89217"
+       id="text12"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan12"
+         x="455.73129"
+         y="177.89217"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">&quot;EndOfRoad&quot;</tspan></text>
+    <rect
+       style="fill:none;stroke:#66d9ef;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect12"
+       width="126.33411"
+       height="16.049017"
+       x="405.61121"
+       y="182.90143"
+       ry="3.6214881" />
+    <path
+       style="fill:none;stroke:#66d9ef;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 451.23549,183.08019 v 16.25743"
+       id="path12"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="412.37854"
+       y="193.96594"
+       id="text13"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan13"
+         x="412.37854"
+         y="193.96594"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">&quot;UP&quot;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="455.73129"
+       y="193.96594"
+       id="text14"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan14"
+         x="455.73129"
+         y="193.96594"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">&quot;EndOfRoad&quot;</tspan></text>
+    <rect
+       style="fill:none;stroke:#66d9ef;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect14"
+       width="126.33411"
+       height="16.049017"
+       x="405.61121"
+       y="198.95044"
+       ry="3.6214881" />
+    <path
+       style="fill:none;stroke:#66d9ef;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 451.23549,199.1292 v 16.25743"
+       id="path14"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="412.37854"
+       y="210.03972"
+       id="text15"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan15"
+         x="412.37854"
+         y="210.03972"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">&quot;NORTH&quot;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="455.73129"
+       y="210.03972"
+       id="text16"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan16"
+         x="455.73129"
+         y="210.03972"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">&quot;InsideBuilding&quot;</tspan></text>
+    <rect
+       style="fill:none;stroke:#66d9ef;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect16"
+       width="126.33411"
+       height="16.049017"
+       x="405.61121"
+       y="214.99945"
+       ry="3.6214881" />
+    <path
+       style="fill:none;stroke:#66d9ef;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 451.23549,215.17821 v 16.25743"
+       id="path16"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="412.37854"
+       y="226.11349"
+       id="text17"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan17"
+         x="412.37854"
+         y="226.11349"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">&quot;IN&quot;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="455.73129"
+       y="226.11349"
+       id="text18"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan18"
+         x="455.73129"
+         y="226.11349"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">&quot;InsideBuilding&quot;</tspan></text>
+    <rect
+       style="fill:none;stroke:#66d9ef;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect18"
+       width="126.33411"
+       height="16.049017"
+       x="405.61121"
+       y="231.04846"
+       ry="3.6214881" />
+    <path
+       style="fill:none;stroke:#66d9ef;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 451.23549,231.22722 v 16.25743"
+       id="path18"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="412.37854"
+       y="242.18727"
+       id="text19"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan19"
+         x="412.37854"
+         y="242.18727"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">&quot;SOUTH&quot;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="455.73129"
+       y="242.18727"
+       id="text20"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan20"
+         x="455.73129"
+         y="242.18727"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">&quot;Valley&quot;</tspan></text>
+    <rect
+       style="fill:none;stroke:#66d9ef;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect20"
+       width="126.33411"
+       height="16.049017"
+       x="405.61121"
+       y="247.09749"
+       ry="3.6214881" />
+    <path
+       style="fill:none;stroke:#66d9ef;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 451.23549,247.27625 v 16.25743"
+       id="path20"
+       sodipodi:nodetypes="cc" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="412.37854"
+       y="258.26108"
+       id="text21"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan21"
+         x="412.37854"
+         y="258.26108"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">&quot;DOWN&quot;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#a6e22e;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="455.73129"
+       y="258.26108"
+       id="text22"
+       transform="scale(1.0015427,0.99845968)"><tspan
+         sodipodi:role="line"
+         id="tspan22"
+         x="455.73129"
+         y="258.26108"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">&quot;Valley&quot;</tspan></text>
+  </g>
+</svg>
+</p>
+</section>
+<section id="problem-2" class="slide level2">
+<h2>Problem 2</h2>
+<div>
+<ul>
+<li class="fragment">Currently, the
+<code class="python">TeachingMachine.py</code> program gives no feedback
+when the user gives an incorrect answer.
+<ul>
+<li class="fragment">Quickly brainstorm some ways you could try to
+implement this? What extra data structures might you need?</li>
+</ul></li>
+<li class="fragment">There are many possible strategies, but the one
+Will Crowther arrived at was reusing the
+<code class="python">AdvRoom</code> class
+(<code class="python">TMQuestion</code> here)
+<ul>
+<li class="fragment">Want the new “question” to display text to the
+screen, but <strong>not</strong> to prompt the user for a response</li>
+<li class="fragment">Instead, a <code class="python">FORCED</code>
+response in the <code class="python">answers</code> dictionary indicates
+that the program should <strong>immediately</strong> proceed to the
+indicated question</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="forced-questions" class="slide level2">
+<h2>Forced Questions</h2>
+<ul>
+<li><p>An example of such a question might look like:</p>
+<pre ><code class="text">Q3Resp
+You forgot to divide by 2.
+-----
+FORCED: Q3</code></pre></li>
+<li><p>Implementing this in <code class="python">TMCourse.py</code>
+requires only a small change:</p>
+<ul>
+<li>The <code class="python">run</code> method for
+<code class="python">TMCourse</code> is shown on the next slide.
+Identify on what lines changes will need to be made.</li>
+<li>Make the changes to allow for <code class="python">FORCED</code>
+questions in the Teaching Machine.</li>
+</ul></li>
+</ul>
+</section>
+<section id="tmcourse.run" class="slide level2"
+data-auto-animate="true">
+<h2
+data-auto-animate="true"><code class="python">TMCourse.run</code></h2>
+<pre data-id="mycode"><code class="mypython" style="max-height:950px; font-size:.8em" data-line-numbers="true">def run(self):
+    """Steps through the questions in this course."""
+    current = "START"
+    while current != "EXIT":
+        question = self._questions[current]
+        for line in question.get_text():
+            print(line)
+        answers = question.get_answers()
+        response = input("> ").strip().upper()
+        next_question = answers.get(response, None)
+        if next_question is None:
+            next_question = answers.get("*", None)
+        if next_question is None:
+            print("I don't understand that response.")
+        else:
+            current = next_question</code></pre>
+</section>
+<section id="tmcourse.run-1" class="slide level2"
+data-auto-animate="true">
+<h2
+data-auto-animate="true"><code class="python">TMCourse.run</code></h2>
+<pre data-id="mycode"><code class="mypython" style="max-height:950px; font-size:.8em" data-line-numbers="9-10|19-20">def run(self):
+    """Steps through the questions in this course."""
+    current = "START"
+    while current != "EXIT":
+        question = self._questions[current]
+        for line in question.get_text():
+            print(line)
+        answers = question.get_answers()
+        forced_question = answers.get("FORCED", None)
+        if forced_question is None:
+            response = input("> ").strip().upper()
+            next_question = answers.get(response, None)
+            if next_question is None:
+                next_question = answers.get("*", None)
+            if next_question is None:
+                print("I don't understand that response.")
+            else:
+                current = next_question
+        else:
+            current = forced_question</code></pre>
+</section>
+<section id="problem-3" class="slide level2">
+<h2>Problem 3</h2>
+<ul>
+<li>The primary computing story throughout most of 2023 has revolved
+around generative AI and large-language models.</li>
+<li>While the underlying software for something like ChatGPT is much
+more complex, the core technology is based on a <em>large-language
+model</em> (LLM) that scans a massive volume of text and then uses that
+data to create sentences in which new words are chosen based on the
+frequency in which they appear in the context of the words already
+generated.</li>
+<li>ChatGPT uses complex contextual information to predict the next
+word, but one can construct a much simpler language-generation model
+that uses only the previous word to guess what word comes next.</li>
+</ul>
+</section>
+<section id="building-the-model" class="slide level2">
+<h2>Building the Model</h2>
+<ul>
+<li><p>To build a simplified language model that uses a single word as
+the context, all you need to do is create a dictionary in which each key
+is a word that appears in your text (often called the <em>corpus</em>)
+and the corresponding value is a list of all the words that follow that
+key.</p></li>
+<li><p>To get a sense for how this process works, it helps to start with
+a small corpus, which might consist of the following three lines from
+Shakespeare’s <em>Macbeth</em>:</p>
+<pre ><code class="text">Tomorrow, and tomorrow, and tomorrow
+Creeps in this petty pace from day to day
+To the last syllable of recorded time;</code></pre></li>
+<li><p>The dictionary that serves as our model must show, for example,
+that the word <code class="python">"tomorrow"</code> appears three
+times, twice followed by the word <code class="python">"and"</code> and
+once followed by <code class="python">"creeps"</code>.</p></li>
+</ul>
+</section>
+<section id="the-macbeth-language-model" class="slide level2">
+<h2>The “MacBeth” Language Model</h2>
+<ul>
+<li><p>The complete dictionary would look like:</p>
+<pre ><code class="mypython">{
+    "and": ["tomorrow", "tomorrow"],
+    "creeps": ["in"],
+    "day": ["to", "to"],
+    "from": ["day"],
+    "in": ["this"],
+    "last": ["syllable"],
+    "of": ["recorded"],
+    "pace": ["from"],
+    "petty": ["pace"],
+    "recorded": ["time"],
+    "syllable": ["of"],
+    "the": ["last"],
+    "this": ["petty"],
+    "time": [],
+    "to": ["day", "the"],
+    "tomorrow": ["and", "and", "creeps"]
+}</code></pre></li>
+</ul>
+</section>
+<section id="token-building" class="slide level2">
+<h2>Token Building</h2>
+<ul>
+<li>To build such a dictionary, you need to select off one word at a
+time from your corpus, appending it to the correct list in your
+dictionary.</li>
+<li>This is an excellent time to make use of the TokenScanner library
+and class!</li>
+<li>Remember that to do so you need to initialize the TokenScanner, and
+then iterate through as long as their remain tokens, retrieving each as
+you go.</li>
+<li>Write a function called
+<code class="python">create_model(text)</code> which uses the
+TokenScanner library to parse the provided text to create a simple
+dictionary language model, as shown on the previous slide.</li>
+</ul>
+</section>
+<section id="token-solution" class="slide level2">
+<h2>Token Solution</h2>
+<pre ><code class="mypython" style="max-height: 900px; font-size:.9em">def create_model(text):
+    """Returns the language-model dictionary 
+    for the provided text."""
+    scanner = TokenScanner(text)
+    model = { }
+    previous = None
+    while scanner.has_more_tokens():
+        word = scanner.next_token().lower()
+        if word.isalpha():
+            if word not in model:
+                model[word] = [ ]
+            if previous is not None:
+                model[previous].append(word)
+            previous = word
+    return model</code></pre>
 </section>
     </div>
   </div>
@@ -64,9 +1614,14 @@
   <!--<script src="./js/revealjs/../other_plugins/reveald3/reveald3.js"></script>,-->
   <script src="./js/revealjs/plugin/math/math.js"></script>
   <script src="./js/revealjs/plugin/highlight/highlight.js"></script>
+  <script src="./js/revealjs/../python_language.js"></script>
+
+  // Font Awesome Characters
+  <script src="https://kit.fontawesome.com/4bc05635b0.js" crossorigin="anonymous"></script>
 
   // Code Tracing
   <script src="./js/revealjs/../codetrace.js"></script>
+
 
   <script>
 
@@ -176,6 +1731,11 @@
 		  <!--},-->
 		  CommonHTML: {scale: 80},
 		},
+          highlight: {
+            beforeHighlight: hljs => hljs.registerLanguage("mypython", function(hljs) {
+              console.log(mypythondef);
+              return mypythondef(hljs); } )
+          },
         // reveal.js plugins
         plugins: [
 		  RevealMath,
@@ -214,5 +1774,17 @@
 		],
       });
     </script>
+  <script>
+  // This is admitedly a very hacky way to achieve my pseudo code highlighting, but it works?
+    function remove_bars() {
+      var pseudoBlocks = document.getElementsByClassName("hljs-pseudo");
+      console.log(pseudoBlocks);
+      for ( var i = 0; i < pseudoBlocks.length; i++) {
+        pseudoBlocks[i].innerHTML = pseudoBlocks[i].innerHTML.replaceAll("\|\|\|", "");
+      }
+      }
+    // omg this is even more hacky now, but I need this to run after hljs has done its thing
+    setTimeout(remove_bars, 100);
+  </script>
     </body>
 </html>
