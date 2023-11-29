@@ -1,2 +1,2 @@
-# section_template
-A template file for generating slides and content for a section meeting
+# Section 12: Adventure
+Template materials for the section on Adventure and the Teaching Machine
