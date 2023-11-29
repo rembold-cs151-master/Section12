@@ -31,11 +31,13 @@ content_url: https://github.com/rembold-cs151-master/Section12
 
 
 ## Understanding the Teaching Machine
+:::{style='font-size:.9em'}
 - Like the Adventure project, the `TeachingMachine.py` program is data-driven, encoding the details of its operation in data files rather than in the program itself
 - The `TeachingMachine.py` program begins by reading in a data file and translating the human-readable contents of the file into an internal data structure, shown on the next slide.
 - When designing the internal data structure for data-driven applications, you should consider what types of common operations the structure needs to support.
   - In the Teaching Machine, each question specifies a collection of possible answers, each of which directs to a new question. Such a relationship suggests a dictionary would be useful.
   - Similarly, the course as a whole consists of a collection of questions referenced by a unique name. Thus, once again a dictionary seems like the best internal structure.
+:::
 
 
 ## Teaching Structure
