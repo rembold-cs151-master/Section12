@@ -1,7 +1,7 @@
 ---
-title: "Section 12: The Adventure Project"
+title: "Section 12: Starting the Adventure"
 author: Jed Rembold and Eric Roberts
-date: "Week of November 27th"
+date: "Week of April 15th"
 slideNumber: true
 theme: monokai
 highlightjs-theme: monokai
@@ -14,10 +14,85 @@ css:
 content_url: https://github.com/rembold-cs151-master/Section12
 ---
 
+## Rehashing Classes
+- The Adventure project relies heavily on classes, and so it is worth reviewing the basics of class definitions before wading into the data structure complexity of Adventure
+- Of particular importance are:
+  - Understanding the role of a constructor function in a class
+  - Understanding how to define and utilize getter and setter methods
+  - Understanding when and where the `self` variable name needs to be utilized
+- The first problem today will practice these topics
+
+
+## Problem 1: Classy Inventories
+- Suppose you run a shop, and were working on code to better help you manage and understand your inventory. At any given time, you have certain items for sale, each of which has a price and some stock associated with it.
+- Here your task begins with writing an `Item` class that will store 3 pieces of information as attributes:
+  - The name of the item as a string
+  - The current stock of the item as an integer
+  - The current price of the item as a float
+- Whenever a new `Item` object is created, all three pieces of information will be passed in as arguments:
+  ```mypython
+  umbrellas = Item("Umbrella", 5, 13.99)
+  ```
+
+## Inventory Initialization Possibility
+- One solution to setting this up might look like:
+  ```mypython
+  class Item:
+    def __init__(self, name, stock, price):
+      self.name = name
+      self.stock = stock
+      self.price = price
+  ```
+
+## Classier Inventories
+- We can do much more than just store attributes in a class though, and bundling common operations together in a class as methods is often useful.
+- Here you should add two methods to your `Item` class:
+  - A `restock` method which takes an integer as an argument and increases the stock of that item by the given integer. No value is returned.
+  - A `purchase` method which takes an integer indicating the _desired_ amount of the item to purchase. If that number of items is in stock, they are removed from the stock and the returned value is equal to the total amount the user would be charged. If the desired number is greater than the number of items in stock, sell them all that are available, but print a warning message.
+
+
+## Checking Out
+- Completed properly, your program should be able to mimic the following:
+  ```{.mypython style='max-height:900px'}
+  >>> ball = Item("Red ball", 10, 2.50)
+  >>> ball.purchase(6)
+  15
+  >>> ball.purchase(6)
+  Warning: Ran out of Red balls! You only got 4!
+  10
+  >>> ball.restock(8)
+  >>> ball.purchase(6)
+  15
+  >>> ball.purchase(6)
+  Warning: Ran out of Red balls! You only got 2!
+  5
+  ```
+
+## Method Solutions
+```{.mypython style='font-size:.9em; max-height:900px'}
+  class Item:
+    def __init__(self, name, stock, price):
+      self.name = name
+      self.stock = stock
+      self.price = price
+
+    def restock(self, num):
+      self.stock += num
+
+    def purchase(self, num):
+      if num <= self.stock:
+        self.stock -= num
+        return num * self.price
+      sold = self.stock
+      self.stock = 0
+      print(f"Warning: Ran out of {self.name}s! You only got {sold}.")
+      return sold * self.price
+```
+
 
 ## The Adventure Begins
-- In terms of the amount of code to write, Adventure is roughly comparable to the Enigma project. What makes Adventure challenging is the interconnection of its data structures.
-- The project includes separate classes:
+- In terms of the amount of code to write, Adventure is roughly comparable to the Breakout project. What makes Adventure challenging though is the interconnection of its various data structures.
+- The project includes 3 separate classes:
   - `AdvGame`
   - `AdvRoom`
   - `AdvObject`
@@ -44,7 +119,7 @@ content_url: https://github.com/rembold-cs151-master/Section12
 ![](./images/TeachingMachine.svg)
 
 
-## Problem 1
+## Problem 2
 - As a first step toward making the conversion to the Adventure program, it is useful to draw out a similar diagram showing the desired internal data structure for the Adventure game
 - In this problem you'll just focus on the `AdvRoom` class.
   - The next slide shows the contents of the first room of the `TinyRooms.txt` data file, one of the three supplied to you with the Adventure project. Draw a pencil-and-paper diagram showing what a **filled** internal data structure would look like.
@@ -72,6 +147,16 @@ DOWN: Valley
 ## Problem 1: One Solution
 ![](./images/AdvRooms.svg)
 
+
+## Continuing the Conversion
+- Once you understand clearly what different parts of the Teaching Machine program accomplish and what the corresponding things are named in Adventure, you can start effectively accomplishing Milestone 1
+- **One other thing to be careful of:**
+  - In the Teaching Machine, the data file was opened in `TeachingMachine.py` and the file handle was passed directly into the `TMCourse` constructor.
+  - In the Adventure, the data file will be opened inside the `AdvGame` constructor, and only the file name prefix is determined and then passed on from `Adventure.py`
+  - This difference is logic stems from the fact that eventually you'll need to be opening and reading from multiple files in `AdvGame`, and so it makes more sense to handle all of that internally.
+
+
+<!-- move to next week
 
 ## Problem 2
 :::incremental
@@ -206,3 +291,5 @@ def create_model(text):
             previous = word
     return model
 ```
+
+-->

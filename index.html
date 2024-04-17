@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Jed Rembold and Eric Roberts">
-  <title>Section 12: The Adventure Project</title>
+  <title>Section 12: Starting the Adventure</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -16,11 +16,8 @@
     div.columns{display: flex; gap: min(4vw, 1.5em);}
     div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    /* The extra [class] is a hack that increases specificity enough to
-       override a similar rule in reveal.js */
-    ul.task-list[class]{list-style: none;}
+    ul.task-list{list-style: none;}
     ul.task-list li input[type="checkbox"] {
-      font-size: inherit;
       width: 0.8em;
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
@@ -36,9 +33,9 @@
     <div class="slides">
 
 <section id="title-slide">
-  <h1 class="title">Section 12: The Adventure Project</h1>
+  <h1 class="title">Section 12: Starting the Adventure</h1>
   <p class="author">Jed Rembold and Eric Roberts</p>
-  <p class="date">Week of November 27th</p>
+  <p class="date">Week of April 15th</p>
 <div class="titlelinks">
 <a title="Template Repo" href="https://github.com/rembold-cs151-master/Section12"><i class="fa-solid fa-folder-tree"></i></a>
 <a title="Template Zip"  href="https://github.com/rembold-cs151-master/Section12/zipball/master/"><i class="fa-solid fa-file-zipper"></i></a>
@@ -46,13 +43,122 @@
 </div>
 </section>
 
+<section id="rehashing-classes" class="slide level2">
+<h2>Rehashing Classes</h2>
+<ul>
+<li>The Adventure project relies heavily on classes, and so it is worth
+reviewing the basics of class definitions before wading into the data
+structure complexity of Adventure</li>
+<li>Of particular importance are:
+<ul>
+<li>Understanding the role of a constructor function in a class</li>
+<li>Understanding how to define and utilize getter and setter
+methods</li>
+<li>Understanding when and where the <code class="python">self</code>
+variable name needs to be utilized</li>
+</ul></li>
+<li>The first problem today will practice these topics</li>
+</ul>
+</section>
+<section id="problem-1-classy-inventories" class="slide level2">
+<h2>Problem 1: Classy Inventories</h2>
+<ul>
+<li><p>Suppose you run a shop, and were working on code to better help
+you manage and understand your inventory. At any given time, you have
+certain items for sale, each of which has a price and some stock
+associated with it.</p></li>
+<li><p>Here your task begins with writing an
+<code class="python">Item</code> class that will store 3 pieces of
+information as attributes:</p>
+<ul>
+<li>The name of the item as a string</li>
+<li>The current stock of the item as an integer</li>
+<li>The current price of the item as a float</li>
+</ul></li>
+<li><p>Whenever a new <code class="python">Item</code> object is
+created, all three pieces of information will be passed in as
+arguments:</p>
+<pre ><code class="mypython">umbrellas = Item("Umbrella", 5, 13.99)</code></pre></li>
+</ul>
+</section>
+<section id="inventory-initialization-possibility" class="slide level2">
+<h2>Inventory Initialization Possibility</h2>
+<ul>
+<li><p>One solution to setting this up might look like:</p>
+<pre ><code class="mypython">class Item:
+  def __init__(self, name, stock, price):
+    self.name = name
+    self.stock = stock
+    self.price = price</code></pre></li>
+</ul>
+</section>
+<section id="classier-inventories" class="slide level2">
+<h2>Classier Inventories</h2>
+<ul>
+<li>We can do much more than just store attributes in a class though,
+and bundling common operations together in a class as methods is often
+useful.</li>
+<li>Here you should add two methods to your
+<code class="python">Item</code> class:
+<ul>
+<li>A <code class="python">restock</code> method which takes an integer
+as an argument and increases the stock of that item by the given
+integer. No value is returned.</li>
+<li>A <code class="python">purchase</code> method which takes an integer
+indicating the <em>desired</em> amount of the item to purchase. If that
+number of items is in stock, they are removed from the stock and the
+returned value is equal to the total amount the user would be charged.
+If the desired number is greater than the number of items in stock, sell
+them all that are available, but print a warning message.</li>
+</ul></li>
+</ul>
+</section>
+<section id="checking-out" class="slide level2">
+<h2>Checking Out</h2>
+<ul>
+<li><p>Completed properly, your program should be able to mimic the
+following:</p>
+<pre ><code class="mypython" style="max-height:900px">>>> ball = Item("Red ball", 10, 2.50)
+>>> ball.purchase(6)
+15
+>>> ball.purchase(6)
+Warning: Ran out of Red balls! You only got 4!
+10
+>>> ball.restock(8)
+>>> ball.purchase(6)
+15
+>>> ball.purchase(6)
+Warning: Ran out of Red balls! You only got 2!
+5</code></pre></li>
+</ul>
+</section>
+<section id="method-solutions" class="slide level2">
+<h2>Method Solutions</h2>
+<pre ><code class="mypython" style="font-size:.9em; max-height:900px">  class Item:
+    def __init__(self, name, stock, price):
+      self.name = name
+      self.stock = stock
+      self.price = price
+
+    def restock(self, num):
+      self.stock += num
+
+    def purchase(self, num):
+      if num <= self.stock:
+        self.stock -= num
+        return num * self.price
+      sold = self.stock
+      self.stock = 0
+      print(f"Warning: Ran out of {self.name}s! You only got {sold}.")
+      return sold * self.price</code></pre>
+</section>
 <section id="the-adventure-begins" class="slide level2">
 <h2>The Adventure Begins</h2>
 <ul>
 <li>In terms of the amount of code to write, Adventure is roughly
-comparable to the Enigma project. What makes Adventure challenging is
-the interconnection of its data structures.</li>
-<li>The project includes separate classes:
+comparable to the Breakout project. What makes Adventure challenging
+though is the interconnection of its various data structures.</li>
+<li>The project includes 3 separate classes:
 <ul>
 <li><code class="python">AdvGame</code></li>
 <li><code class="python">AdvRoom</code></li>
@@ -732,8 +838,8 @@ seems like the best internal structure.</li>
 </svg>
 </p>
 </section>
-<section id="problem-1" class="slide level2">
-<h2>Problem 1</h2>
+<section id="problem-2" class="slide level2">
+<h2>Problem 2</h2>
 <ul>
 <li>As a first step toward making the conversion to the Adventure
 program, it is useful to draw out a similar diagram showing the desired
@@ -774,12 +880,12 @@ DOWN: Valley</code></pre>
 <h2>Problem 1: One Solution</h2>
 <p><?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   width="495.32474mm"
-   height="252.65973mm"
-   viewBox="0 0 495.32473 252.65973"
+   width="441.07507mm"
+   height="219.25137mm"
+   viewBox="0 0 441.07507 219.25137"
    version="1.1"
    id="svg839"
-   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25, custom)"
    sodipodi:docname="AdvRooms.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -795,17 +901,17 @@ DOWN: Valley</code></pre>
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="833.21428"
-     inkscape:cy="603.57143"
+     inkscape:zoom="0.7"
+     inkscape:cx="766.42857"
+     inkscape:cy="212.85714"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
      showgrid="false"
-     inkscape:window-width="1513"
-     inkscape:window-height="980"
-     inkscape:window-x="147"
-     inkscape:window-y="50"
+     inkscape:window-width="2560"
+     inkscape:window-height="1440"
+     inkscape:window-x="1080"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:showpageshadow="2"
      inkscape:pagecheckerboard="0"
@@ -834,7 +940,7 @@ DOWN: Valley</code></pre>
        orient="auto"
        inkscape:stockid="DotM"
        inkscape:isstock="true"
-       viewBox="0 0 4.53333335 4.53333335"
+       viewBox="0 0 4.5333334 4.5333334"
        markerWidth="4.5333333"
        markerHeight="4.5333333"
        preserveAspectRatio="xMidYMid">
@@ -897,7 +1003,7 @@ DOWN: Valley</code></pre>
        id="marker21533168">
       <path
          transform="matrix(0.4,0,0,0.4,2.96,0.4)"
-         style="fill:#ae81ff;fill-opacity:1.0;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1.0"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1"
          d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
          id="path22" />
     </marker>
@@ -917,7 +1023,7 @@ DOWN: Valley</code></pre>
       <path
          transform="scale(0.7)"
          d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
-         style="fill:#ae81ff;fill-rule:evenodd;stroke:#ae81ff;stroke-opacity:1.0;fill-opacity:1.0"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-opacity:1"
          id="path23" />
     </marker>
     <marker
@@ -927,14 +1033,14 @@ DOWN: Valley</code></pre>
        orient="auto"
        inkscape:stockid="marker23017022"
        inkscape:isstock="true"
-       viewBox="0 0 4.53333335 4.53333335"
+       viewBox="0 0 4.5333334 4.5333334"
        markerWidth="4.5333333"
        markerHeight="4.5333333"
        preserveAspectRatio="xMidYMid"
        id="marker23017022">
       <path
          transform="matrix(0.4,0,0,0.4,2.96,0.4)"
-         style="fill:#ae81ff;fill-opacity:1.0;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1.0"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1"
          d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
          id="path24" />
     </marker>
@@ -954,7 +1060,7 @@ DOWN: Valley</code></pre>
       <path
          transform="scale(0.7)"
          d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
-         style="fill:#ae81ff;fill-rule:evenodd;stroke:#ae81ff;stroke-opacity:1.0;fill-opacity:1.0"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-opacity:1"
          id="path25" />
     </marker>
   </defs>
@@ -973,7 +1079,7 @@ DOWN: Valley</code></pre>
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-238.91306,-50.878314)">
+     transform="translate(-249.57338,-52.117535)">
     <rect
        style="fill:none;stroke:#a6e22e;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect859"
@@ -1068,7 +1174,7 @@ DOWN: Valley</code></pre>
        ry="3.6214881" />
     <path
        style="fill:none;stroke:#ae81ff;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker23017022);marker-end:url(#ConcaveTriangle7952)"
-       d="m 303.51248,154.41818 h 68.28976 l 0,-46.7617 h 14.43543"
+       d="m 303.51248,154.41818 h 68.28976 v -46.7617 h 14.43543"
        id="path2297"
        sodipodi:nodetypes="cccc" />
     <rect
@@ -1414,60 +1520,72 @@ DOWN: Valley</code></pre>
          x="455.73129"
          y="258.26108"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">&quot;Valley&quot;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.2179px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#66d9ef;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="256.26782"
+       y="59.961147"
+       id="text1"
+       transform="scale(1.0015427,0.99845966)"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         x="256.26782"
+         y="59.961147"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.2179px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">AdvRoom</tspan></text>
   </g>
 </svg>
 </p>
 </section>
-<section id="problem-2" class="slide level2">
-<h2>Problem 2</h2>
-<div>
+<section id="continuing-the-conversion" class="slide level2">
+<h2>Continuing the Conversion</h2>
 <ul>
-<li class="fragment">Currently, the
-<code class="python">TeachingMachine.py</code> program gives no feedback
-when the user gives an incorrect answer.
+<li>Once you understand clearly what different parts of the Teaching
+Machine program accomplish and what the corresponding things are named
+in Adventure, you can start effectively accomplishing Milestone 1</li>
+<li><strong>One other thing to be careful of:</strong>
 <ul>
-<li class="fragment">Quickly brainstorm some ways you could try to
-implement this? What extra data structures might you need?</li>
-</ul></li>
-<li class="fragment">There are many possible strategies, but the one
-Will Crowther arrived at was reusing the
-<code class="python">AdvRoom</code> class
-(<code class="python">TMQuestion</code> here)
-<ul>
-<li class="fragment">Want the new “question” to display text to the
-screen, but <strong>not</strong> to prompt the user for a response</li>
-<li class="fragment">Instead, a <code class="python">FORCED</code>
-response in the <code class="python">answers</code> dictionary indicates
-that the program should <strong>immediately</strong> proceed to the
-indicated question</li>
+<li>In the Teaching Machine, the data file was opened in
+<code class="python">TeachingMachine.py</code> and the file handle was
+passed directly into the <code class="python">TMCourse</code>
+constructor.</li>
+<li>In the Adventure, the data file will be opened inside the
+<code class="python">AdvGame</code> constructor, and only the file name
+prefix is determined and then passed on from
+<code class="python">Adventure.py</code></li>
+<li>This difference is logic stems from the fact that eventually you’ll
+need to be opening and reading from multiple files in
+<code class="python">AdvGame</code>, and so it makes more sense to
+handle all of that internally.</li>
 </ul></li>
 </ul>
-</div>
-</section>
-<section id="forced-questions" class="slide level2">
-<h2>Forced Questions</h2>
-<ul>
-<li><p>An example of such a question might look like:</p>
-<pre ><code class="text">Q3Resp
-You forgot to divide by 2.
------
-FORCED: Q3</code></pre></li>
-<li><p>Implementing this in <code class="python">TMCourse.py</code>
-requires only a small change:</p>
-<ul>
-<li>The <code class="python">run</code> method for
-<code class="python">TMCourse</code> is shown on the next slide.
-Identify on what lines changes will need to be made.</li>
-<li>Make the changes to allow for <code class="python">FORCED</code>
-questions in the Teaching Machine.</li>
-</ul></li>
-</ul>
-</section>
-<section id="tmcourse.run" class="slide level2"
-data-auto-animate="true">
-<h2
-data-auto-animate="true"><code class="python">TMCourse.run</code></h2>
-<pre data-id="mycode"><code class="mypython" style="max-height:950px; font-size:.8em" data-line-numbers="true">def run(self):
+<!-- move to next week
+
+## Problem 2
+:::incremental
+- Currently, the `TeachingMachine.py` program gives no feedback when the user gives an incorrect answer.
+  - Quickly brainstorm some ways you could try to implement this? What extra data structures might you need?
+- There are many possible strategies, but the one Will Crowther arrived at was reusing the `AdvRoom` class (`TMQuestion` here)
+  - Want the new "question" to display text to the screen, but **not** to prompt the user for a response
+  - Instead, a `FORCED` response in the `answers` dictionary indicates that the program should **immediately** proceed to the indicated question
+:::
+
+
+## Forced Questions
+- An example of such a question might look like:
+  ```text
+  Q3Resp
+  You forgot to divide by 2.
+  -----
+  FORCED: Q3
+  ```
+- Implementing this in `TMCourse.py` requires only a small change:
+  - The `run` method for `TMCourse` is shown on the next slide. Identify on what lines changes will need to be made.
+  - Make the changes to allow for `FORCED` questions in the Teaching Machine.
+
+
+## `TMCourse.run` {data-auto-animate=true}
+```{.mypython style='max-height:950px; font-size:.8em' data-id='mycode' data-line-numbers=true}
+def run(self):
     """Steps through the questions in this course."""
     current = "START"
     while current != "EXIT":
@@ -1482,13 +1600,12 @@ data-auto-animate="true"><code class="python">TMCourse.run</code></h2>
         if next_question is None:
             print("I don't understand that response.")
         else:
-            current = next_question</code></pre>
-</section>
-<section id="tmcourse.run-1" class="slide level2"
-data-auto-animate="true">
-<h2
-data-auto-animate="true"><code class="python">TMCourse.run</code></h2>
-<pre data-id="mycode"><code class="mypython" style="max-height:950px; font-size:.8em" data-line-numbers="9-10|19-20">def run(self):
+            current = next_question
+```
+
+## `TMCourse.run` {data-auto-animate=true}
+```{.mypython style='max-height:950px; font-size:.8em' data-id='mycode' data-line-numbers='9-10|19-20'}
+def run(self):
     """Steps through the questions in this course."""
     current = "START"
     while current != "EXIT":
@@ -1507,88 +1624,60 @@ data-auto-animate="true"><code class="python">TMCourse.run</code></h2>
             else:
                 current = next_question
         else:
-            current = forced_question</code></pre>
-</section>
-<section id="problem-3" class="slide level2">
-<h2>Problem 3</h2>
-<ul>
-<li>The primary computing story throughout most of 2023 has revolved
-around generative AI and large-language models.</li>
-<li>While the underlying software for something like ChatGPT is much
-more complex, the core technology is based on a <em>large-language
-model</em> (LLM) that scans a massive volume of text and then uses that
-data to create sentences in which new words are chosen based on the
-frequency in which they appear in the context of the words already
-generated.</li>
-<li>ChatGPT uses complex contextual information to predict the next
-word, but one can construct a much simpler language-generation model
-that uses only the previous word to guess what word comes next.</li>
-</ul>
-</section>
-<section id="building-the-model" class="slide level2">
-<h2>Building the Model</h2>
-<ul>
-<li><p>To build a simplified language model that uses a single word as
-the context, all you need to do is create a dictionary in which each key
-is a word that appears in your text (often called the <em>corpus</em>)
-and the corresponding value is a list of all the words that follow that
-key.</p></li>
-<li><p>To get a sense for how this process works, it helps to start with
-a small corpus, which might consist of the following three lines from
-Shakespeare’s <em>Macbeth</em>:</p>
-<pre ><code class="text">Tomorrow, and tomorrow, and tomorrow
-Creeps in this petty pace from day to day
-To the last syllable of recorded time;</code></pre></li>
-<li><p>The dictionary that serves as our model must show, for example,
-that the word <code class="python">"tomorrow"</code> appears three
-times, twice followed by the word <code class="python">"and"</code> and
-once followed by <code class="python">"creeps"</code>.</p></li>
-</ul>
-</section>
-<section id="the-macbeth-language-model" class="slide level2">
-<h2>The “MacBeth” Language Model</h2>
-<ul>
-<li><p>The complete dictionary would look like:</p>
-<pre ><code class="mypython">{
-    "and": ["tomorrow", "tomorrow"],
-    "creeps": ["in"],
-    "day": ["to", "to"],
-    "from": ["day"],
-    "in": ["this"],
-    "last": ["syllable"],
-    "of": ["recorded"],
-    "pace": ["from"],
-    "petty": ["pace"],
-    "recorded": ["time"],
-    "syllable": ["of"],
-    "the": ["last"],
-    "this": ["petty"],
-    "time": [],
-    "to": ["day", "the"],
-    "tomorrow": ["and", "and", "creeps"]
-}</code></pre></li>
-</ul>
-</section>
-<section id="token-building" class="slide level2">
-<h2>Token Building</h2>
-<ul>
-<li>To build such a dictionary, you need to select off one word at a
-time from your corpus, appending it to the correct list in your
-dictionary.</li>
-<li>This is an excellent time to make use of the TokenScanner library
-and class!</li>
-<li>Remember that to do so you need to initialize the TokenScanner, and
-then iterate through as long as their remain tokens, retrieving each as
-you go.</li>
-<li>Write a function called
-<code class="python">create_model(text)</code> which uses the
-TokenScanner library to parse the provided text to create a simple
-dictionary language model, as shown on the previous slide.</li>
-</ul>
-</section>
-<section id="token-solution" class="slide level2">
-<h2>Token Solution</h2>
-<pre ><code class="mypython" style="max-height: 900px; font-size:.9em">def create_model(text):
+            current = forced_question
+```
+
+## Problem 3
+- The primary computing story throughout most of 2023 has revolved around generative AI and large-language models.
+- While the underlying software for something like ChatGPT is much more complex, the core technology is based on a _large-language model_ (LLM) that scans a massive volume of text and then uses that data to create sentences in which new words are chosen based on the frequency in which they appear in the context of the words already generated.
+- ChatGPT uses complex contextual information to predict the next word, but one can construct a much simpler language-generation model that uses only the previous word to guess what word comes next.
+
+
+## Building the Model
+- To build a simplified language model that uses a single word as the context, all you need to do is create a dictionary in which each key is a word that appears in your text (often called the _corpus_) and the corresponding value is a list of all the words that follow that key.
+- To get a sense for how this process works, it helps to start with a small corpus, which might consist of the following three lines from Shakespeare's _Macbeth_:
+
+  ```text
+  Tomorrow, and tomorrow, and tomorrow
+  Creeps in this petty pace from day to day
+  To the last syllable of recorded time;
+  ```
+- The dictionary that serves as our model must show, for example, that the word `"tomorrow"` appears three times, twice followed by the word `"and"` and once followed by `"creeps"`.
+
+
+## The "MacBeth" Language Model
+- The complete dictionary would look like:
+  ```mypython
+  {
+      "and": ["tomorrow", "tomorrow"],
+      "creeps": ["in"],
+      "day": ["to", "to"],
+      "from": ["day"],
+      "in": ["this"],
+      "last": ["syllable"],
+      "of": ["recorded"],
+      "pace": ["from"],
+      "petty": ["pace"],
+      "recorded": ["time"],
+      "syllable": ["of"],
+      "the": ["last"],
+      "this": ["petty"],
+      "time": [],
+      "to": ["day", "the"],
+      "tomorrow": ["and", "and", "creeps"]
+  }
+  ```
+
+## Token Building
+- To build such a dictionary, you need to select off one word at a time from your corpus, appending it to the correct list in your dictionary.
+- This is an excellent time to make use of the TokenScanner library and class!
+- Remember that to do so you need to initialize the TokenScanner, and then iterate through as long as their remain tokens, retrieving each as you go.
+- Write a function called `create_model(text)` which uses the TokenScanner library to parse the provided text to create a simple dictionary language model, as shown on the previous slide.
+
+
+## Token Solution
+```{.mypython style='max-height: 900px; font-size:.9em'}
+def create_model(text):
     """Returns the language-model dictionary 
     for the provided text."""
     scanner = TokenScanner(text)
@@ -1602,7 +1691,10 @@ dictionary language model, as shown on the previous slide.</li>
             if previous is not None:
                 model[previous].append(word)
             previous = word
-    return model</code></pre>
+    return model
+```
+
+-->
 </section>
     </div>
   </div>

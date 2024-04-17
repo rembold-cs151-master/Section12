@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   width="495.32474mm"
-   height="252.65973mm"
-   viewBox="0 0 495.32473 252.65973"
+   width="441.07507mm"
+   height="219.25137mm"
+   viewBox="0 0 441.07507 219.25137"
    version="1.1"
    id="svg839"
-   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25, custom)"
    sodipodi:docname="AdvRooms.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -21,17 +21,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4"
-     inkscape:cx="833.21428"
-     inkscape:cy="603.57143"
+     inkscape:zoom="0.7"
+     inkscape:cx="766.42857"
+     inkscape:cy="212.85714"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
      showgrid="false"
-     inkscape:window-width="1513"
-     inkscape:window-height="980"
-     inkscape:window-x="147"
-     inkscape:window-y="50"
+     inkscape:window-width="2560"
+     inkscape:window-height="1440"
+     inkscape:window-x="1080"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:showpageshadow="2"
      inkscape:pagecheckerboard="0"
@@ -60,7 +60,7 @@
        orient="auto"
        inkscape:stockid="DotM"
        inkscape:isstock="true"
-       viewBox="0 0 4.53333335 4.53333335"
+       viewBox="0 0 4.5333334 4.5333334"
        markerWidth="4.5333333"
        markerHeight="4.5333333"
        preserveAspectRatio="xMidYMid">
@@ -123,7 +123,7 @@
        id="marker21533168">
       <path
          transform="matrix(0.4,0,0,0.4,2.96,0.4)"
-         style="fill:#ae81ff;fill-opacity:1.0;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1.0"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1"
          d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
          id="path22" />
     </marker>
@@ -143,7 +143,7 @@
       <path
          transform="scale(0.7)"
          d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
-         style="fill:#ae81ff;fill-rule:evenodd;stroke:#ae81ff;stroke-opacity:1.0;fill-opacity:1.0"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-opacity:1"
          id="path23" />
     </marker>
     <marker
@@ -153,14 +153,14 @@
        orient="auto"
        inkscape:stockid="marker23017022"
        inkscape:isstock="true"
-       viewBox="0 0 4.53333335 4.53333335"
+       viewBox="0 0 4.5333334 4.5333334"
        markerWidth="4.5333333"
        markerHeight="4.5333333"
        preserveAspectRatio="xMidYMid"
        id="marker23017022">
       <path
          transform="matrix(0.4,0,0,0.4,2.96,0.4)"
-         style="fill:#ae81ff;fill-opacity:1.0;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1.0"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-width:1pt;stroke-opacity:1"
          d="m -2.5,-1 c 0,2.76 -2.24,5 -5,5 -2.76,0 -5,-2.24 -5,-5 0,-2.76 2.24,-5 5,-5 2.76,0 5,2.24 5,5 z"
          id="path24" />
     </marker>
@@ -180,7 +180,7 @@
       <path
          transform="scale(0.7)"
          d="M -2,-4 9,0 -2,4 c 2,-2.33 2,-5.66 0,-8 z"
-         style="fill:#ae81ff;fill-rule:evenodd;stroke:#ae81ff;stroke-opacity:1.0;fill-opacity:1.0"
+         style="fill:#ae81ff;fill-opacity:1;fill-rule:evenodd;stroke:#ae81ff;stroke-opacity:1"
          id="path25" />
     </marker>
   </defs>
@@ -199,7 +199,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-238.91306,-50.878314)">
+     transform="translate(-249.57338,-52.117535)">
     <rect
        style="fill:none;stroke:#a6e22e;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
        id="rect859"
@@ -294,7 +294,7 @@
        ry="3.6214881" />
     <path
        style="fill:none;stroke:#ae81ff;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#marker23017022);marker-end:url(#ConcaveTriangle7952)"
-       d="m 303.51248,154.41818 h 68.28976 l 0,-46.7617 h 14.43543"
+       d="m 303.51248,154.41818 h 68.28976 v -46.7617 h 14.43543"
        id="path2297"
        sodipodi:nodetypes="cccc" />
     <rect
@@ -640,5 +640,17 @@
          x="455.73129"
          y="258.26108"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.39548px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">&quot;Valley&quot;</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.2179px;line-height:1.25;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;letter-spacing:0px;word-spacing:0px;fill:#66d9ef;fill-opacity:1;stroke:none;stroke-width:0.264584"
+       x="256.26782"
+       y="59.961147"
+       id="text1"
+       transform="scale(1.0015427,0.99845966)"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         x="256.26782"
+         y="59.961147"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.2179px;font-family:Menlo;-inkscape-font-specification:'Menlo, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#a6e22e;stroke-width:0.264584">AdvRoom</tspan></text>
   </g>
 </svg>
