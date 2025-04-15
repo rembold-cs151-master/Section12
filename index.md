@@ -1,13 +1,13 @@
 ---
 title: "Section 12: Starting the Adventure"
 author: Jed Rembold and Eric Roberts
-date: "Week of April 15th"
+date: "Week of April 14th"
 slideNumber: true
 theme: monokai
 highlightjs-theme: monokai
 width: 1920
 height: 1080
-transition: fade
+transition: slide
 css:
   - css/codetrace.css
   - css/roberts.css
@@ -22,8 +22,8 @@ content_url: https://github.com/rembold-cs151-master/Section12
   - Understanding when and where the `self` variable name needs to be utilized
 - The first problem today will practice these topics
 
-
-## Problem 1: Classy Inventories
+# Problem 1
+## Classy Inventories
 - Suppose you run a shop, and were working on code to better help you manage and understand your inventory. At any given time, you have certain items for sale, each of which has a price and some stock associated with it.
 - Here your task begins with writing an `Item` class that will store 3 pieces of information as attributes:
   - The name of the item as a string
@@ -89,21 +89,25 @@ content_url: https://github.com/rembold-cs151-master/Section12
       return sold * self.price
 ```
 
-
+# Prepping for Adventure
 ## The Adventure Begins
 - In terms of the amount of code to write, Adventure is roughly comparable to the Breakout project. What makes Adventure challenging though is the interconnection of its various data structures.
 - The project includes 3 separate classes:
   - `AdvGame`
   - `AdvRoom`
-  - `AdvObject`
+  - `AdvItem`
   
   each of which internally utilize Python lists, dictionaries, and tuples
 
 ## Adventure Strategies:
-- Ensure that you thoroughly understand the `TeachingMachine.py` program before moving on to Adventure. Most of the parts you need are already there, you just need to determine how to adapt them.
-- Don't try to keep the entire data structure in your head all at once. Consider each class, figure out what it does, and then think abstractly about what that class represents rather than worrying about the details
-- Keep close track of what Python types your variables are storing. Choose good variable names that help you remember specifically what a particular variable is storing. Students thinking a variable has one thing in it when it is actually storing a different data type is a very common source of confusion with Adventure.
-
+:::incremental
+- Ensure that you thoroughly understand the `TeachingMachine.py` program before moving on to Adventure. 
+  - Most of the parts you need are already there, you just need to determine how to adapt them.
+- Don't try to keep the entire data structure in your head all at once. 
+  - Consider each class, figure out what it does, and then think abstractly about what that class represents rather than worrying about the details
+- Keep close track of what Python types your variables are storing. 
+  - Choose good variable names that help you remember specifically what a particular variable is storing. Students thinking a variable has one thing in it when it is actually storing a different data type is a very common source of confusion with Adventure.
+:::
 
 ## Understanding the Teaching Machine
 :::{style='font-size:.9em'}
@@ -118,8 +122,8 @@ content_url: https://github.com/rembold-cs151-master/Section12
 ## Teaching Structure
 ![](./images/TeachingMachine.svg)
 
-
-## Problem 2
+# Problem 2
+## Matching text to data structure
 - As a first step toward making the conversion to the Adventure program, it is useful to draw out a similar diagram showing the desired internal data structure for the Adventure game
 - In this problem you'll just focus on the `AdvRoom` class.
   - The next slide shows the contents of the first room of the `TinyRooms.txt` data file, one of the three supplied to you with the Adventure project. Draw a pencil-and-paper diagram showing what a **filled** internal data structure would look like.
@@ -153,7 +157,7 @@ DOWN: Valley
 - **One other thing to be careful of:**
   - In the Teaching Machine, the data file was opened in `TeachingMachine.py` and the file handle was passed directly into the `TMCourse` constructor.
   - In the Adventure, the data file will be opened inside the `AdvGame` constructor, and only the file name prefix is determined and then passed on from `Adventure.py`
-  - This difference is logic stems from the fact that eventually you'll need to be opening and reading from multiple files in `AdvGame`, and so it makes more sense to handle all of that internally.
+  - This difference is logic stems from the fact that eventually you'll need to be opening and reading from multiple files in `AdvGame`, and so it makes more sense to handle all of that internally in the `AdvGame` constructor.
 
 
 <!-- move to next week

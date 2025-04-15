@@ -16,8 +16,11 @@
     div.columns{display: flex; gap: min(4vw, 1.5em);}
     div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
     ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
       width: 0.8em;
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
@@ -35,7 +38,7 @@
 <section id="title-slide">
   <h1 class="title">Section 12: Starting the Adventure</h1>
   <p class="author">Jed Rembold and Eric Roberts</p>
-  <p class="date">Week of April 15th</p>
+  <p class="date">Week of April 14th</p>
 <div class="titlelinks">
 <a title="Template Repo" href="https://github.com/rembold-cs151-master/Section12"><i class="fa-solid fa-folder-tree"></i></a>
 <a title="Template Zip"  href="https://github.com/rembold-cs151-master/Section12/zipball/master/"><i class="fa-solid fa-file-zipper"></i></a>
@@ -60,8 +63,13 @@ variable name needs to be utilized</li>
 <li>The first problem today will practice these topics</li>
 </ul>
 </section>
-<section id="problem-1-classy-inventories" class="slide level2">
-<h2>Problem 1: Classy Inventories</h2>
+<section>
+<section id="problem-1" class="title-slide slide level1">
+<h1>Problem 1</h1>
+
+</section>
+<section id="classy-inventories" class="slide level2">
+<h2>Classy Inventories</h2>
 <ul>
 <li><p>Suppose you run a shop, and were working on code to better help
 you manage and understand your inventory. At any given time, you have
@@ -151,6 +159,11 @@ Warning: Ran out of Red balls! You only got 2!
       self.stock = 0
       print(f"Warning: Ran out of {self.name}s! You only got {sold}.")
       return sold * self.price</code></pre>
+</section></section>
+<section>
+<section id="prepping-for-adventure" class="title-slide slide level1">
+<h1>Prepping for Adventure</h1>
+
 </section>
 <section id="the-adventure-begins" class="slide level2">
 <h2>The Adventure Begins</h2>
@@ -162,7 +175,7 @@ though is the interconnection of its various data structures.</li>
 <ul>
 <li><code class="python">AdvGame</code></li>
 <li><code class="python">AdvRoom</code></li>
-<li><code class="python">AdvObject</code></li>
+<li><code class="python">AdvItem</code></li>
 </ul>
 each of which internally utilize Python lists, dictionaries, and
 tuples</li>
@@ -170,21 +183,32 @@ tuples</li>
 </section>
 <section id="adventure-strategies" class="slide level2">
 <h2>Adventure Strategies:</h2>
+<div>
 <ul>
-<li>Ensure that you thoroughly understand the
+<li class="fragment">Ensure that you thoroughly understand the
 <code class="python">TeachingMachine.py</code> program before moving on
-to Adventure. Most of the parts you need are already there, you just
-need to determine how to adapt them.</li>
-<li>Don’t try to keep the entire data structure in your head all at
-once. Consider each class, figure out what it does, and then think
-abstractly about what that class represents rather than worrying about
-the details</li>
-<li>Keep close track of what Python types your variables are storing.
-Choose good variable names that help you remember specifically what a
-particular variable is storing. Students thinking a variable has one
-thing in it when it is actually storing a different data type is a very
-common source of confusion with Adventure.</li>
+to Adventure.
+<ul>
+<li class="fragment">Most of the parts you need are already there, you
+just need to determine how to adapt them.</li>
+</ul></li>
+<li class="fragment">Don’t try to keep the entire data structure in your
+head all at once.
+<ul>
+<li class="fragment">Consider each class, figure out what it does, and
+then think abstractly about what that class represents rather than
+worrying about the details</li>
+</ul></li>
+<li class="fragment">Keep close track of what Python types your
+variables are storing.
+<ul>
+<li class="fragment">Choose good variable names that help you remember
+specifically what a particular variable is storing. Students thinking a
+variable has one thing in it when it is actually storing a different
+data type is a very common source of confusion with Adventure.</li>
+</ul></li>
 </ul>
+</div>
 </section>
 <section id="understanding-the-teaching-machine" class="slide level2">
 <h2>Understanding the Teaching Machine</h2>
@@ -837,9 +861,14 @@ seems like the best internal structure.</li>
   </g>
 </svg>
 </p>
+</section></section>
+<section>
+<section id="problem-2" class="title-slide slide level1">
+<h1>Problem 2</h1>
+
 </section>
-<section id="problem-2" class="slide level2">
-<h2>Problem 2</h2>
+<section id="matching-text-to-data-structure" class="slide level2">
+<h2>Matching text to data structure</h2>
 <ul>
 <li>As a first step toward making the conversion to the Adventure
 program, it is useful to draw out a similar diagram showing the desired
@@ -1555,7 +1584,8 @@ prefix is determined and then passed on from
 <li>This difference is logic stems from the fact that eventually you’ll
 need to be opening and reading from multiple files in
 <code class="python">AdvGame</code>, and so it makes more sense to
-handle all of that internally.</li>
+handle all of that internally in the <code class="python">AdvGame</code>
+constructor.</li>
 </ul></li>
 </ul>
 <!-- move to next week
@@ -1695,7 +1725,7 @@ def create_model(text):
 ```
 
 -->
-</section>
+</section></section>
     </div>
   </div>
 
@@ -1795,7 +1825,7 @@ def create_model(text):
         // Time before the cursor is hidden (in ms)
         hideCursorTime: 5000,
         // Transition style
-        transition: 'fade', // none/fade/slide/convex/concave/zoom
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
         // Transition speed
         transitionSpeed: 'default', // default/fast/slow
         // Transition style for full page slide backgrounds
