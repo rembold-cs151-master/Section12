@@ -153,7 +153,7 @@ DOWN: Valley
 
 
 ## Continuing the Conversion
-- Once you understand clearly what different parts of the Teaching Machine program accomplish and what the corresponding things are named in Adventure, you can start effectively accomplishing Milestone 1
+- Once you understand clearly what different parts of the Teaching Machine program accomplish and what the corresponding things are named in Adventure, you can start effectively accomplishing Milestone 0
 - **One other thing to be careful of:**
   - In the Teaching Machine, the data file was opened in `TeachingMachine.py` and the file handle was passed directly into the `TMCourse` constructor.
   - In the Adventure, the data file will be opened inside the `AdvGame` constructor, and only the file name prefix is determined and then passed on from `Adventure.py`
