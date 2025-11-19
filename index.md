@@ -70,7 +70,7 @@ def eva_count(data):
     eva_crew = set() # Accounting for duplicate crew across missions
     for mission_name, mission_data in data.items():
         if mission_name.startswith("A"):
-            for crew_dict in mission_data["crew_roster"]:
+            for crew_dict in mission_data["crew"]:
                 if "EVA" in crew_dict["certifications"]:
                     eva_crew.add(crew_dict["name"])
     return len(eva_crew)
@@ -84,7 +84,7 @@ def power_missions(data):
     missions = set()
     for mission_name, mission_data in data.items():
         nav_power_readings = []
-        for item_dict in mission_data["hardware_inventory"]:
+        for item_dict in mission_data["hardware"]:
             if item_dict["type"] == "Navigation":
                 nav_power_readings.append(item_dict["diagnostics"]["power_W"])
         if sum(nav_power_readings) / len(nav_power_readings) > 100:
