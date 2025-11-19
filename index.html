@@ -3,14 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <meta name="author" content="Jed Rembold and Eric Roberts">
-  <title>Section 12: Starting the Adventure</title>
+  <meta name="author" content="Jed Rembold">
+  <title>Section 12: Compounding APIs</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
   <link rel="stylesheet" href="./js/revealjs/dist/reset.css">
   <link rel="stylesheet" href="./js/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -36,9 +39,9 @@
     <div class="slides">
 
 <section id="title-slide">
-  <h1 class="title">Section 12: Starting the Adventure</h1>
-  <p class="author">Jed Rembold and Eric Roberts</p>
-  <p class="date">Week of April 14th</p>
+  <h1 class="title">Section 12: Compounding APIs</h1>
+  <p class="author">Jed Rembold</p>
+  <p class="date">Week of November 17th</p>
 <div class="titlelinks">
 <a title="Template Repo" href="https://github.com/rembold-cs151-master/Section12"><i class="fa-solid fa-folder-tree"></i></a>
 <a title="Template Zip"  href="https://github.com/rembold-cs151-master/Section12/zipball/master/"><i class="fa-solid fa-file-zipper"></i></a>
@@ -46,47 +49,55 @@
 </div>
 </section>
 
-<section id="rehashing-classes" class="slide level2">
-<h2>Rehashing Classes</h2>
-<ul>
-<li>The Adventure project relies heavily on classes, and so it is worth
-reviewing the basics of class definitions before wading into the data
-structure complexity of Adventure</li>
-<li>Of particular importance are:
-<ul>
-<li>Understanding the role of a constructor function in a class</li>
-<li>Understanding how to define and utilize getter and setter
-methods</li>
-<li>Understanding when and where the <code class="python">self</code>
-variable name needs to be utilized</li>
-</ul></li>
-<li>The first problem today will practice these topics</li>
-</ul>
-</section>
 <section>
 <section id="problem-1" class="title-slide slide level1">
 <h1>Problem 1</h1>
 
 </section>
-<section id="classy-inventories" class="slide level2">
-<h2>Classy Inventories</h2>
+<section id="navigating-compound-data-structures" class="slide level2">
+<h2>Navigating Compound Data Structures</h2>
 <ul>
-<li><p>Suppose you run a shop, and were working on code to better help
-you manage and understand your inventory. At any given time, you have
-certain items for sale, each of which has a price and some stock
-associated with it.</p></li>
-<li><p>Here your task begins with writing an
-<code class="python">Item</code> class that will store 3 pieces of
-information as attributes:</p>
+<li>Project 5 requires reading in and working with a large, nested data
+structure that holds all of the existing content that comprises a given
+story.</li>
+<li>Navigating your way around that structure, looping over and
+selecting out the pieces of information that you need, will be the most
+conceptually difficult task in the first milestones.</li>
+<li>This first problem is intended to get you some practice thinking
+about, and working with these nested structures.</li>
+</ul>
+</section>
+<section id="space-missions" class="slide level2">
+<h2>Space Missions</h2>
 <ul>
-<li>The name of the item as a string</li>
-<li>The current stock of the item as an integer</li>
-<li>The current price of the item as a float</li>
+<li>Your data in this problem comes in a JSON format, and represents a
+collection of fictional space missions</li>
+<li>Each mission contains information about:
+<ul>
+<li>the crew involved, including
+<ul>
+<li>their names (which are unique)</li>
+<li>their role on the mission</li>
+<li>their certifications</li>
 </ul></li>
-<li><p>Whenever a new <code class="python">Item</code> object is
-created, all three pieces of information will be passed in as
-arguments:</p>
-<pre ><code class="mypython">umbrellas = Item("Umbrella", 5, 13.99)</code></pre></li>
+<li>various pieces of hardware and some diagnostics, including
+<ul>
+<li>the hardware name</li>
+<li>the hardware type (what category it belongs to)</li>
+<li>any diagnostics, which include
+<ul>
+<li>the status of the hardware</li>
+<li>the power emitted by the hardware in watts</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="visualizing-the-data" class="slide level2">
+<h2>Visualizing the Data</h2>
+<ul>
+<li>It can be useful to visualize the structure to help organize it in
+your thoughts, and provide a reference for various names</li>
 </ul>
 </section>
 <section id="inventory-initialization-possibility" class="slide level2">
@@ -183,7 +194,6 @@ tuples</li>
 </section>
 <section id="adventure-strategies" class="slide level2">
 <h2>Adventure Strategies:</h2>
-<div>
 <ul>
 <li class="fragment">Ensure that you thoroughly understand the
 <code class="python">TeachingMachine.py</code> program before moving on
@@ -208,7 +218,6 @@ variable has one thing in it when it is actually storing a different
 data type is a very common source of confusion with Adventure.</li>
 </ul></li>
 </ul>
-</div>
 </section>
 <section id="understanding-the-teaching-machine" class="slide level2">
 <h2>Understanding the Teaching Machine</h2>

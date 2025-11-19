@@ -1,7 +1,7 @@
 ---
-title: "Section 12: Starting the Adventure"
-author: Jed Rembold and Eric Roberts
-date: "Week of April 14th"
+title: "Section 12: Compounding APIs"
+author: Jed Rembold
+date: "Week of November 17th"
 slideNumber: true
 theme: monokai
 highlightjs-theme: monokai
@@ -14,25 +14,30 @@ css:
 content_url: https://github.com/rembold-cs151-master/Section12
 ---
 
-## Rehashing Classes
-- The Adventure project relies heavily on classes, and so it is worth reviewing the basics of class definitions before wading into the data structure complexity of Adventure
-- Of particular importance are:
-  - Understanding the role of a constructor function in a class
-  - Understanding how to define and utilize getter and setter methods
-  - Understanding when and where the `self` variable name needs to be utilized
-- The first problem today will practice these topics
-
 # Problem 1
-## Classy Inventories
-- Suppose you run a shop, and were working on code to better help you manage and understand your inventory. At any given time, you have certain items for sale, each of which has a price and some stock associated with it.
-- Here your task begins with writing an `Item` class that will store 3 pieces of information as attributes:
-  - The name of the item as a string
-  - The current stock of the item as an integer
-  - The current price of the item as a float
-- Whenever a new `Item` object is created, all three pieces of information will be passed in as arguments:
-  ```mypython
-  umbrellas = Item("Umbrella", 5, 13.99)
-  ```
+## Navigating Compound Data Structures
+- Project 5 requires reading in and working with a large, nested data structure that holds all of the existing content that comprises a given story.
+- Navigating your way around that structure, looping over and selecting out the pieces of information that you need, will be the most conceptually difficult task in the first milestones.
+- This first problem is intended to get you some practice thinking about, and working with these nested structures.
+
+## Space Missions
+- Your data in this problem comes in a JSON format, and represents a collection of fictional space missions
+- Each mission contains information about:
+  - the crew involved, including
+    - their names (which are unique)
+    - their role on the mission
+    - their certifications
+  - various pieces of hardware and some diagnostics, including
+    - the hardware name
+    - the hardware type (what category it belongs to)
+    - any diagnostics, which include
+      - the status of the hardware
+      - the power emitted by the hardware in watts
+
+## Visualizing the Data
+- It can be useful to visualize the structure to help organize it in your thoughts, and provide a reference for various names
+
+
 
 ## Inventory Initialization Possibility
 - One solution to setting this up might look like:
