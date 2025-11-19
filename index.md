@@ -96,7 +96,7 @@ def power_missions(data):
 
 ## Talking to the Web
 - The modern web is built on applications being able to communicate and pass information back and forth
-- The HTML standard defines a variety of ways that communication can be passed, of which two main methods dominate:
+- The HTTP standard defines a variety of ways that communication can be passed, of which two main methods dominate:
   - A _GET_ request retrieves information from a specified online source
   - A _POST_ request sends information to a specified online source (and then sometimes receives information back)
 - In Python, the `requests` library handles both of these methods (and more)
@@ -104,7 +104,7 @@ def power_missions(data):
 
 
 ## Application Programming Interfaces
-- While the HTML standard defines **how** things communicate, it doesn't specify **what** is communicating
+- While the HTTP standard defines **how** things communicate, it doesn't specify **what** is communicating
 - Web sources are usually dominated by what are called "application programming interfaces", or APIs
   - Imagine a bit of code that is running on a computer/server, just waiting for someone to contact it and send back a response!
 - Programming can design how these APIs function:
