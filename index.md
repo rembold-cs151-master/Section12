@@ -1,7 +1,7 @@
 ---
 title: "Section 12: Compounding APIs"
 author: Jed Rembold
-date: "Week of November 17th"
+date: "Week of April 20th, 2026"
 slideNumber: true
 theme: python_catppuccin
 highlightjs-theme: catppuccin-mocha
