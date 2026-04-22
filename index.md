@@ -3,8 +3,8 @@ title: "Section 12: Compounding APIs"
 author: Jed Rembold
 date: "Week of November 17th"
 slideNumber: true
-theme: monokai
-highlightjs-theme: monokai
+theme: python_catppuccin
+highlightjs-theme: catppuccin-mocha
 width: 1920
 height: 1080
 transition: slide
@@ -93,87 +93,80 @@ def power_missions(data):
 ```
 
 # Problem 2
+## The NotOpenAI API
+- A core part of the functionality of the Infinite Adventure project requires being able to use the NotOpenAI library to send prompts to ChatGPT
+- Recall that this library is set up to perfectly mimic the use of the real OpenAI library, but in a way that costs you no money!
+- As such, we need to utilize the library in particular ways
 
-## Talking to the Web
-- The modern web is built on applications being able to communicate and pass information back and forth
-- The HTTP standard defines a variety of ways that communication can be passed, of which two main methods dominate:
-  - A _GET_ request retrieves information from a specified online source
-  - A _POST_ request sends information to a specified online source (and then sometimes receives information back)
-- In Python, the `requests` library handles both of these methods (and more)
-  - Not part of the default installed libraries. Will need to install like we did with `pillow` at the beginning of the semester. Generally with `pip install requests`.
+## Components of a NotOpenAI Call
+```{.mypython style='max-height:900px; font-size: .8em'}
+CLIENT = NotOpenAI(api_key="yourapikey") # Create the client
 
+chat_completion = CLIENT.chat.completions.create(
+	messages=[
+		|||Dictionary with payload|||
+	],
+	model=|||model to use|||,
+	response_format={"type": "json_object"} # if json requested
+)
+response_str = chat_completion.choices[0].message.content
+|||Convert json content to Python data structures|||
+```
 
-## Application Programming Interfaces
-- While the HTTP standard defines **how** things communicate, it doesn't specify **what** is communicating
-- Web sources are usually dominated by what are called "application programming interfaces", or APIs
-  - Imagine a bit of code that is running on a computer/server, just waiting for someone to contact it and send back a response!
-- Programming can design how these APIs function:
-  - What web addresses do they live at?
-  - What information can they return or process?
-  - How is a user allowed to interact with the API?
-
-## Post Up
-- In the Infinite Adventure, we are utilizing the NotOpenAI library, which makes a _POST_ request to the ChatGPT servers
-  - We need to **send** the desired prompt, hence the need for a POST request
-  - We package the prompt up in a little dictionary (generally formatted as JSON), which is called the _payload_.
-- The API we contact then sends us back a response, which we then need to parse to extract out the important parts.
-
-
-## The Section 12 API
-- In this problem, you will be "contacting" a special API written just for this section
-- This API "lives" at a particular web address: 
-  ```text
-  https://section12api-production.up.railway.app/generate
-  ```
-- Interactions:
-  - The API expects a payload with three keys:
-    - `"name"` - Your name
-    - `"class_year"` - Your class year, Freshman - Senior
-    - `"favorite_animal"` - Your favorite animal
-  - The API will return to you JSON with a single key: `"content"`
-    - The value associated with `"content"` is a dictionary converted to a string
-
-## The Content Dictionary
-- The NotOpenAI library returns a similar dictionary in a string format to you, which in that case holds your newly created scene information
-- To convert that string of JSON into something usable in Python, you will want to use the `loads` method from the `json` library:
-  ```mypython
-  import json
-
-  content_dict = json.loads(|||string dictionary|||)
-  ```
-- This resulting dictionary should have several keys in it. You want to extract the `"fun_fact"` key and print its corresponding value.
+## The Pieces
+- The Payload dictionary:
+	- **Must** have keys of `"role"` and `"content"`
+	- `"role"` is always set to `"user"`
+	- `"content"` is assigned the text of your prompt
+- The model:
+	- Lots of different models available from OpenAI
+	- NotOpenAI only is supporting `"gpt-4o-mini"`
 
 
-## Overall Gameplan
-Thus, to complete this problem you need to:
+## Your Task
+- Use the NotOpenAPI to retrieve a JSON structure that contains information on the top 5 most influential adventure games of all time. Your structure should include:
+	- Game name
+	- The creator
+	- The publishing year
+	- A one sentence description of why it was influential
+- Your overall goal is to print out only the names of the graphical adventure games to the terminal.
 
-#. Craft your payload dictionary
-#. Make the POST request, providing the payload
-#. Check the status of the returned message, to be sure it was successful
-#. Convert the content key back to a dictionary
-#. Extract and print out the value of the "fun_fact" key
+## Guiding ChatGPT
+- Left to its own devises, ChatGPT might give you any structure and keys with this information, which makes it very difficult to write code to work with what is returned!
+- Thus, it is always good to give it a sample of what you want
+- If you already an example as a Python dictionary, you can just call `str()` on it to convert it to a string that you could include in your prompt
+
 
 ## Possible Solution
 ```{.python style='font-size:.8em; max-height: 900px;'}
-import requests
+from notopenai import NotOpenAI
 import json
 
-URL = "https://section12api-production.up.railway.app/generate"
-
-payload = {
-    "name": "Jed",
-    "class_year": "super senior",
-    "favorite_animal": "snow leopard"
+SAMPLE = {
+    'name': 'The Great WU Adventure', 
+    'creator': 'Jed Rembord',
+    'pub_year': '2026',
+    'desc': 'A groundbreaking text adventure about a duck living in the Mill Stream.'
 }
 
-# Making the request and getting the response
-resp = requests.post(URL, json=payload)
+CLIENT = NotOpenAI('api_key': 'yourkey')
 
-if resp.status_code == 200: # A good response
-    data = resp.json() # Get the returned dictionary
-    content = json.loads(data['content']) # Convert content to dict
-    print(content['fun_fact'])
-else: # If the response code was bad
-    print(f"Oh no! A {resp.status_code} error occurred!")
+prompt = f"Give me the top 5 most influential adventure games in a JSON format. The JSON should be a list where each element is a dictionary that looks like {str(SAMPLE)} and contain the name of the game, the creator, the published year, and a one sentence description of why it was influential."
 
+chat_completion = CLIENT.chat.completions.create(
+	messages=[
+      {
+        'role': 'user',
+        'content': prompt
+      }
+	],
+	model="gpt-4o-mini",
+	response_format={"type": "json_object"} 
+)
+response_str = chat_completion.choices[0].message.content
+data = json.loads(response_str)
+
+for game in data:
+  if 'graphical' in game['desc']:
+    print(game['name'])
 ```
