@@ -129,7 +129,7 @@ response_str = chat_completion.choices[0].message.content
 	- The creator
 	- The publishing year
 	- A one sentence description of why it was influential
-- Your overall goal is to print out only the names of the graphical adventure games to the terminal.
+- Your overall goal is to print out the names of both the earliest and latest published games returned to you.
 
 ## Guiding ChatGPT
 - Left to its own devises, ChatGPT might give you any structure and keys with this information, which makes it very difficult to write code to work with what is returned!
@@ -138,35 +138,57 @@ response_str = chat_completion.choices[0].message.content
 
 
 ## Possible Solution
-```{.python style='font-size:.8em; max-height: 900px;'}
+```{.python style='font-size:.7em; max-height: 900px;'}
+
+"""
+Utilizes the NotOpenAI API to retrieve and parse a response from ChatGPT
+"""
+
 from notopenai import NotOpenAI
 import json
 
-SAMPLE = {
-    'name': 'The Great WU Adventure', 
-    'creator': 'Jed Rembord',
-    'pub_year': '2026',
-    'desc': 'A groundbreaking text adventure about a duck living in the Mill Stream.'
+SAMPLE = {'games': [
+    {
+        'name': 'The Great WU Adventure', 
+        'creator': 'Jed Rembord',
+        'pub_year': 2026,
+        'desc': 'A groundbreaking text adventure about a duck living in the Mill Stream.'
+    },
+    {
+        'name': 'Revenge of the Nutria', 
+        'creator': 'Jed Rembord',
+        'pub_year': 2026,
+        'desc': 'A horror adventure game about zombified nutria'
+    },
+]
 }
 
-CLIENT = NotOpenAI('api_key': 'yourkey')
+CLIENT = NotOpenAI(api_key='yourkey')
 
-prompt = f"Give me the top 5 most influential adventure games in a JSON format. The JSON should be a list where each element is a dictionary that looks like {str(SAMPLE)} and contain the name of the game, the creator, the published year, and a one sentence description of why it was influential."
+prompt = f"Give me the top 5 most influential adventure games in a JSON format. The JSON should be formatted exactly like {str(SAMPLE)} where the outer element is a list and each interior game dictionary should contain the name of the game, the creator, the published year, and a one sentence description of why it was influential."
 
 chat_completion = CLIENT.chat.completions.create(
-	messages=[
+    messages=[
       {
         'role': 'user',
         'content': prompt
       }
-	],
-	model="gpt-4o-mini",
-	response_format={"type": "json_object"} 
+    ],
+    model="gpt-4o-mini",
+    response_format={"type": "json_object"} 
 )
 response_str = chat_completion.choices[0].message.content
 data = json.loads(response_str)
 
-for game in data:
-  if 'graphical' in game['desc']:
-    print(game['name'])
+print(data)
+
+newest = data['games'][0]
+oldest = data['games'][0]
+for game in data['games']:
+    if newest['pub_year'] < game['pub_year']:
+        newest = game
+    if oldest['pub_year'] > game['pub_year']:
+        oldest = game
+print(f"The oldest game is {oldest['name']}, published in {oldest['pub_year']}.")
+print(f"The newest game is {newest['name']}, published in {newest['pub_year']}.")
 ```
