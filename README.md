@@ -1,2 +1,2 @@
-# Section 12: Adventure
-Template materials for the section on Adventure and the Teaching Machine
+# Section 12: Infinite Adventure
+Template materials for the section on Infinite Adventure and NotOpenAI
