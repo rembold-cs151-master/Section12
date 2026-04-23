@@ -133,8 +133,8 @@ response_str = chat_completion.choices[0].message.content
 
 ## Guiding ChatGPT
 - Left to its own devises, ChatGPT might give you any structure and keys with this information, which makes it very difficult to write code to work with what is returned!
-- Thus, it is always good to give it a sample of what you want
-- If you already an example as a Python dictionary, you can just call `str()` on it to convert it to a string that you could include in your prompt
+- Thus, it is always good to give it a sample or example of what you want
+- If you already have an example of the output you want as a Python dictionary, you can just call `str()` on it to convert it to a string that you could include in your prompt
 
 
 ## Possible Solution

@@ -14,7 +14,6 @@
     /* Default styles provided by pandoc.
     ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
     */
-    code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
     div.column{flex: auto; overflow-x: auto;}
@@ -895,10 +894,11 @@ latest published games returned to you.</li>
 <li>Left to its own devises, ChatGPT might give you any structure and
 keys with this information, which makes it very difficult to write code
 to work with what is returned!</li>
-<li>Thus, it is always good to give it a sample of what you want</li>
-<li>If you already an example as a Python dictionary, you can just call
-<code class="python">str()</code> on it to convert it to a string that
-you could include in your prompt</li>
+<li>Thus, it is always good to give it a sample or example of what you
+want</li>
+<li>If you already have an example of the output you want as a Python
+dictionary, you can just call <code class="python">str()</code> on it to
+convert it to a string that you could include in your prompt</li>
 </ul>
 </section>
 <section id="possible-solution" class="slide level2">
